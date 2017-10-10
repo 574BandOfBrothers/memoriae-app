@@ -1,5 +1,17 @@
 # Memoriae App
 
+To access Memoriae App on Sandbox environment yo should download expo from the following links;
+
+[![Play Store](https://d30j33t1r58ioz.cloudfront.net/static/download-google.png?dc974f415c487bead0424e11b092defa)](https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=www)
+
+[![Play Store](https://d30j33t1r58ioz.cloudfront.net/static/download-apple.png?dc974f415c487bead0424e11b092defa)](https://itunes.apple.com/app/apple-store/id982107779?ct=www&mt=8)
+
+Then from expo app scan following QR Code. Thats it !
+
+![](https://s3-eu-west-1.amazonaws.com/ardaogulcan.com/img/download.png)
+
+# Local Development
+
 ## Available Scripts
 
 ### `npm start`
