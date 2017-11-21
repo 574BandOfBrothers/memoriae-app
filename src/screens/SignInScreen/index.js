@@ -8,6 +8,7 @@ import {
   View,
   Text,
   Button,
+  TextInput,
 } from 'react-native';
 
 class SignInScreen extends Component {
@@ -18,7 +19,14 @@ class SignInScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <TextInput
+            placeholder = 'e-mail adress'
+        />
+        <TextInput
+            placeholder = 'password'
+        />     
         <Button title="Touch to Sign In" onPress={this.handleSignIn.bind(this)} />
+        <Button title="Touch to Sign Up" onPress={() => this.props.navigation.navigate('SignUp')} />
       </View>
     );
   }
