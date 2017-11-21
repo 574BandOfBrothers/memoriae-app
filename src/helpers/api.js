@@ -72,4 +72,47 @@ export default class Api {
       name: 'Arda',
     })
   }
+
+  getStories() {
+    return fetch(`${this._url}/stories`, {
+      method: 'get',
+      headers: this.header(),
+    }).then(handleResponse, handleError);
+  }
+
+  requestSignedUrl() {
+    return fetch(`${this._url}/uploads/request`, {
+      method: 'get',
+      headers: this.header(),
+    }).then(handleResponse, handleError);
+  }
+
+  uploadToSignedUrl(url, file, fileType = 'image/jpg') {
+    // INFO: XHR request is used for Amazon Upload due to the fetch mime type bug
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.timeout = 60000;
+
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === XMLHttpRequest.DONE) {
+          return xhr.status === 200 ? resolve() : reject(xhr);
+        }
+      }
+
+      xhr.ontimeout = reject;
+
+      xhr.open('PUT', url);
+      xhr.setRequestHeader('x-amz-acl', 'public-read');
+      xhr.send({ uri: file, type: fileType });
+    })
+  }
+
+  createStory(story) {
+    return fetch(`${this._url}/stories`, {
+      method: 'post',
+      mode: 'cors',
+      headers: this.header(),
+      body: JSON.stringify(story),
+    }).then(handleResponse, handleError);
+  }
 }

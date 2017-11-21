@@ -8,7 +8,7 @@ class RootNavigation extends Component {
   render() {
     const { auth } = this.props;
     return (
-      !auth.get('accessToken') ?
+      !true ?
       <SignStackNavigator onNavigationStateChange={null} />
       :
       <AppTabNavigator onNavigationStateChange={null} />
