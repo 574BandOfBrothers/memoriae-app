@@ -2,42 +2,58 @@ import React, { Component } from 'react';
 import { Image, Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
-import HomeStackNavigator from './HomeStackNavigator';
+import StoriesStackNavigator from './StoriesStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
 
 import { colors } from '../helpers/styles';
 
+import MemoriesIcon from '../assets/icons/memories.png';
+import ProfileIcon from '../assets/icons/profile.png';
+
 const AppTabNavigator = TabNavigator({
-  HomeStack: {
-    screen: HomeStackNavigator,
-    name: 'HomeStack',
+  Stories: {
+    screen: StoriesStackNavigator,
+    name: 'Memories',
     navigationOptions: {
-      tabBarLabel: 'Home',
+      tabBarLabel: 'Memories',
+      tabBarIcon: ({ tintColor, focused }) => (
+        <Image source={MemoriesIcon} style={{ tintColor: tintColor}} />
+      ),
     }
   },
-  ProfileStack: {
+  Profile: {
     screen: ProfileStackNavigator,
-    name: 'ProfileStack',
+    name: 'Profile',
     navigationOptions: {
       tabBarLabel: 'Profile',
+      tabBarIcon: ({ tintColor, focused }) => (
+        <Image source={ProfileIcon} style={{ tintColor: tintColor}} />
+      ),
     }
   }
 }, {
-  initialRouteName: 'HomeStack',
+  initialRouteName: 'Stories',
   tabBarPosition: 'bottom',
   swipeEnabled: false,
   tabBarOptions: {
-    showLabel: true,
+    inactiveTintColor: colors.ocean(),
+    activeTintColor: colors.white(),
+    activeBackgroundColor: colors.grapefruit(),
+    showLabel: false,
     showIcon: true,
     indicatorStyle: {
-      backgroundColor: colors.white(),
+      backgroundColor: colors.grapefruit(),
       height: 50,
       borderTopWidth: Platform.OS === 'ios' ? 0 : 1,
       borderColor: Platform.OS === 'ios' ? colors.white() : colors.black(0.12),
     },
+    iconStyle: {
+      height: 30,
+      width: 30,
+    },
     style: {
       borderTopWidth: Platform.OS === 'ios' ? 0 : 1,
-      borderColor: Platform.OS === 'ios' ? colors.white() : colors.black(0.12),
+      borderColor: Platform.OS === 'ios' ? colors.white() : colors.black(0.05),
       shadowColor: colors.warmGrey(),
       shadowOpacity: 0.65,
       shadowOffset: {
