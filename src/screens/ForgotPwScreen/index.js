@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { signUpRequest } from '../../actions/auth';
+import { forgotPwRequest } from '../../actions/forgotPw';
+
+
 import StyledTextInput from '../../components/StyledTextInput';
 import { textStyles, colors } from '../../helpers/styles';
 import StyledButton from '../../components/StyledButton';
@@ -16,9 +18,9 @@ import {
   TextInput,
 } from 'react-native';
 
-class SignUpScreen extends Component {
-  handleSignUp() {
-    this.props.signUpRequest();
+class ForgotPwScreen extends Component {
+  handleForgotPw() {
+    this.props.forgotPwRequest();
   }
 
   render() {
@@ -32,27 +34,11 @@ class SignUpScreen extends Component {
             selectionColor={colors.charcoalGrey()}
             returnKeyType="next"
             placeholder="e-mail"
-            />
-        <StyledTextInput
-            wrapperStyle={styles.interactionWrapper}
-            style={styles.textInput}
-            placeholderTextColor={colors.charcoalGrey(0.3)}
-            selectionColor={colors.charcoalGrey()}
-            returnKeyType="next"
-            placeholder="password"
-            />
-        <StyledTextInput
-            wrapperStyle={styles.interactionWrapper}
-            style={styles.textInput}
-            placeholderTextColor={colors.charcoalGrey(0.3)}
-            selectionColor={colors.charcoalGrey()}
-            returnKeyType="next"
-            placeholder="password check"
-            />    
+            />  
         <StyledButton
-           style={styles.SignUpButton}
-           titleStyle={styles.SignUpButtonText}
-           title="Sign Up"
+           style={styles.ForgotPwButton}
+           titleStyle={styles.ForgotPwButtonText}
+           title="Forgot Password"
            //onPress={this.handleImageButtonPress.bind(this)}
            //rightItem={<Image source={ListArrow} />} 
            />
@@ -61,8 +47,8 @@ class SignUpScreen extends Component {
   }
 }
 
-SignUpScreen.navigationOptions = {
-  title: 'Memoriae Sign Up',
+ForgotPwScreen.navigationOptions = {
+  title: 'Forgot Password',
 }
 
 const styles = StyleSheet.create({
@@ -85,7 +71,7 @@ const styles = StyleSheet.create({
     color: colors.charcoalGrey(),
   },
 
-  SignUpButton: {
+  ForgotPwButton: {
     marginTop: 20,
     marginBottom: 20,
     paddingLeft: 15,
@@ -95,10 +81,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: colors.ocean(),
+    backgroundColor: colors.orangeyRed(),
   },
 
-    SignUpButtonText: {
+    ForgotPwButtonText: {
     textAlign: 'center', 
   },
 
@@ -110,6 +96,6 @@ export default connect(
   state => ({
     auth: state.auth,
   }), {
-    signUpRequest,
+    forgotPwRequest,
   }
-)(SignUpScreen);
+)(ForgotPwScreen);
