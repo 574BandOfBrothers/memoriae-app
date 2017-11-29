@@ -27,9 +27,17 @@ class StoriesScreen extends Component {
     this.props.stories.size === 0 && this.props.fetchStories();
   }
 
+  handleSelectStory(storyId) {
+    this.props.navigation.navigate('Story', {
+      storyId,
+    });
+  }
+
   renderStoryItem({ item, index }) {
     return (
-      <TouchableOpacity style={styles.listItemContainer}>
+      <TouchableOpacity
+        style={styles.listItemContainer}
+        onPress={this.handleSelectStory.bind(this, item._id)}>
         { item.media && item.media.length > 0 &&
           <Image source={{ uri: item.media[0].url }} style={styles.listItemImage} />
         }
