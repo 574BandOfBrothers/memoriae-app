@@ -34,9 +34,9 @@ export const createStory = (fields, images) => dispatch => {
           type: signedData.config.ContentType,
           url: signedData.fileUrl,
         }))
-        .catch(reject);
+        .catch((error) => { console.log(error); reject();});
       })
-      .catch(reject);
+      .catch((error) => { console.log(error); reject();});
     })
   );
 
@@ -53,6 +53,7 @@ export const createStory = (fields, images) => dispatch => {
       });
     })
     .catch(errorResponse => {
+      console.log(errorResponse);
       return dispatch({
         type: 'STORIES/CREATE_REQUEST_FAIL',
         error: errorResponse,
@@ -60,6 +61,7 @@ export const createStory = (fields, images) => dispatch => {
     });
   })
   .catch((errorResponse) => {
+    console.log(errorResponse);
     return dispatch({
       type: 'STORIES/CREATE_REQUEST_FAIL',
       error: errorResponse,

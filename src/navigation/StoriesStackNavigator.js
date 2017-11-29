@@ -6,6 +6,7 @@ import { colors, textStyles } from '../helpers/styles';
 
 import StoriesScreen from '../screens/StoriesScreen';
 import AddStoryScreen from '../screens/AddStoryScreen';
+import StoryScreen from '../screens/StoryScreen';
 
 const styles = StyleSheet.create({
   header: {
@@ -23,6 +24,9 @@ const StoriesStackNavigator = StackNavigator({
   },
   AddStory: {
     screen: AddStoryScreen,
+  },
+  Story: {
+    screen: StoryScreen,
   },
 }, {
   navigationOptions: {
