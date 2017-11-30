@@ -10,6 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import { Map, List } from 'immutable';
+import DatePicker from 'react-native-datepicker'
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ImagePicker } from 'expo';
@@ -65,6 +66,7 @@ class AddStoryScreen extends Component {
     this.setState({
       story: this.state.story.set(field, value),
     });
+    console.warn(this.state.story)
   }
 
   handleSave() {
@@ -110,6 +112,20 @@ class AddStoryScreen extends Component {
             placeholder="Date for your memory"
             value={story.get('time')}
             onChangeText={this.handleTextChange.bind(this, 'time')}/>
+
+          <DatePicker
+            style={{width: 200}}
+            date={this.state.date}
+            mode="date"
+            placeholder="select date"
+            format="YYYY-MM-DD"
+            minDate="1800-05-01"
+            maxDate="2030-06-01"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={styles.timeInput}
+            //onDateChange={(date) => {this.setState({date: date})}}
+            onDateChange={this.handleTextChange.bind(this, 'time')}/>            
 
           <StyledTextInput
             wrapperStyle={styles.interactionWrapperMultiline}
@@ -158,6 +174,7 @@ class AddStoryScreen extends Component {
             title={isSaveInProgress ? 'Loading...' : 'Create Memory' }
             rightItem={isSaveInProgress ? <ActivityIndicator /> : null }
             onPress={this.handleSave.bind(this)}/>
+
         </KeyboardAwareScrollView>
       </View>
     );
@@ -225,6 +242,21 @@ const styles = StyleSheet.create({
   saveButtonText: {
     ...textStyles.semiBoldWhite,
   },
+
+  timeInput:{ 
+    //dateIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 4,
+    marginLeft: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.charcoalGrey(0.3),
+    paddingRight: 10,
+    paddingLeft: 10,
+    justifyContent: 'center',
+    height: 45,
+  },
+
 });
 
 

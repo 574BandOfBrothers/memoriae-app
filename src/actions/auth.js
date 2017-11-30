@@ -26,3 +26,10 @@ export const signOutRequest = () => dispatch => {
     type: 'AUTH/SIGN_OUT_COMPLETE',
   });
 }
+
+
+export const signUpRequest = () => dispatch => {
+  dispatch({
+    type: 'AUTH/SIGN_UP_COMPLETE',
+  });
+}

@@ -21,7 +21,7 @@ class ProfileScreen extends Component {
            style={styles.SignOutButton}
            titleStyle={styles.SignOutButtonText}
            title="Sign Out"
-           onPress={() => this.props.navigation.navigate('SignIn')}
+           onPress={() => this.props.navigation.navigate('SignOut')}
            //rightItem={<Image source={ListArrow} />} 
            />        
 
