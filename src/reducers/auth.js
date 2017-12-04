@@ -12,6 +12,7 @@ export default (state = initialState, { type, data }) => {
         .set('accessToken', data.accessToken)
         .set('name', data.name);
 
+    case 'AUTH/SIGN_UP_COMPLETE':
     case 'AUTH/SIGN_OUT_COMPLETE':
     case 'AUTH/REFRESH_TOKEN_REQUEST_FAIL':
       return initialState;

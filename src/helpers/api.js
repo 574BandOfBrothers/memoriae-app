@@ -2,6 +2,7 @@ import api from '../configs/api';
 
 function handleResponse(response) {
   return new Promise((resolve, reject) => {
+
     response.json().then(jsonBody => {
       if (response.ok) {
         return resolve(jsonBody);
@@ -71,6 +72,14 @@ export default class Api {
       accessToken: '123',
       name: 'Arda',
     })
+  }
+
+  signUp(data) {
+    return fetch(`${this._url}/users`, {
+      method: 'post',
+      headers: this.header(),
+      body: JSON.stringify(data),
+    }).then(handleResponse, handleError);
   }
 
   getStories() {

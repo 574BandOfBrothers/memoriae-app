@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { signInRequest } from '../../actions/auth';
-import { signUpRequest } from '../../actions/auth';
 
 import { textStyles, colors } from '../../helpers/styles';
 import StyledTextInput from '../../components/StyledTextInput';
@@ -25,7 +24,7 @@ class SignInScreen extends Component {
     super(props);
 
     this.state = {
-      account: 
+      account:
         Map(
           {
           email: '',
@@ -73,15 +72,15 @@ class SignInScreen extends Component {
           selectionColor={colors.charcoalGrey()}
           returnKeyType="next"
           placeholder="password"
-          onChangeText={this.handleTextChange.bind(this, 'password')}            
-          /> 
+          onChangeText={this.handleTextChange.bind(this, 'password')}
+          />
         <StyledButton
           style={styles.SignInButton}
           titleStyle={styles.SignInButtonText}
           title="Sign In"
           onPress={this.handleSignIn.bind(this)}
           //onPress={this.handleImageButtonPress.bind(this)}
-          //rightItem={<Image source={ListArrow} />} 
+          //rightItem={<Image source={ListArrow} />}
         />
         <StyledButton
           style={styles.SignUpButton}
@@ -89,7 +88,7 @@ class SignInScreen extends Component {
           title="Sign Up"
           onPress={() => this.props.navigation.navigate('SignUp')}
           //onPress={this.handleImageButtonPress.bind(this)}
-          //rightItem={<Image source={ListArrow} />} 
+          //rightItem={<Image source={ListArrow} />}
         />
         <StyledButton
           style={styles.ForgotButton}
@@ -97,7 +96,7 @@ class SignInScreen extends Component {
           title="Forgot Password"
           onPress={() => this.props.navigation.navigate('ForgotPw')}
           //onPress={this.handleImageButtonPress.bind(this)}
-          //rightItem={<Image source={ListArrow} />} 
+          //rightItem={<Image source={ListArrow} />}
         />
 
       </View>
@@ -115,16 +114,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backGroundBlue(0.3),
     flexDirection: 'column',
     //alignItems: 'center',
-    //justifyContent: 'center',  
+    //justifyContent: 'center',
   },
 
   iconStyle: {
-    //width: 100, 
+    //width: 100,
     //height: 100,
     //borderRadius: 2,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
 
     interactionWrapper: {
@@ -156,7 +155,7 @@ const styles = StyleSheet.create({
   },
 
   SignInButtonText: {
-    textAlign: 'center', 
+    textAlign: 'center',
   },
 
   SignUpButton: {
@@ -173,7 +172,7 @@ const styles = StyleSheet.create({
   },
 
   SignUpButtonText: {
-    textAlign: 'center', 
+    textAlign: 'center',
   },
 
   ForgotButton: {
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
   },
 
   ForgotButtonText: {
-    textAlign: 'center', 
+    textAlign: 'center',
   },
 
 

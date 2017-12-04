@@ -39,14 +39,14 @@ class SignUpScreen extends Component {
     super(props);
 
     this.state = {
-      account: 
-        Map(
-          {
+      account:
+        Map({
+          name: '',
           email: '',
-          password: '',
-          passwordCheck: '',
-          }
-        ),
+          password1: '',
+          password2: '',
+        }
+      ),
     };
   }
 
@@ -60,41 +60,42 @@ class SignUpScreen extends Component {
   }
 
   handleSignUp() {
-    var map0=this.state.account.get('email');
-    var map1=this.state.account.get('password');
-    var map2=this.state.account.get('passwordCheck');
+    const name_ = this.state.account.get('name');
+    const email_ = this.state.account.get('email');
+    const password1_ = this.state.account.get('password1');
+    const password2_ = this.state.account.get('password2');
 
-  // Check Password
-    if(map1||map2)
-    {
-      if(map1 == map2)
-      {
-      console.warn('passwords are OK')
-      this.props.signUpRequest();
+    // Check Name
+
+    // Check Password
+    if (password1_ || password2_) {
+      if (password1_ == password2_) {
+        console.warn('passwords are OK')
+        this.props.signUpRequest();
       }
-      else
-      {
-      console.warn('passwords are diffrent')
+      else {
+        console.warn('passwords are diffrent')
       }
     }
-    else
-    {
-    console.warn('passwords cannot be null')
+    else {
+      console.warn('passwords cannot be null')
     }
 
-  // Check email
-    if (map0.indexOf('@') > -1)
-    {
-    //@ is found no problem
+    // Check email
+    if (email_.indexOf('@') > -1) {
+      //@ is found no problem
     }
-    else
-    {
-    console.warn('Please enter a valid email')
+    else {
+      console.warn('Please enter a valid email')
     }
 
+    this.props.signUpRequest({
+      name: name_,
+      email: email_,
+      password: password1_,
+    });
   }
-  
-  
+
   render() {
     const { auth, navigation } = this.props;
     //const { story } = this.state;
@@ -107,35 +108,47 @@ class SignUpScreen extends Component {
           placeholderTextColor={colors.charcoalGrey(0.3)}
           selectionColor={colors.charcoalGrey()}
           returnKeyType="next"
+          placeholder="name"
+          onChangeText={this.handleTextChange.bind(this, 'name')}
+        />
+
+        <StyledTextInput
+          wrapperStyle={styles.interactionWrapper}
+          style={styles.textInput}
+          placeholderTextColor={colors.charcoalGrey(0.3)}
+          selectionColor={colors.charcoalGrey()}
+          returnKeyType="next"
           placeholder="e-mail"
           onChangeText={this.handleTextChange.bind(this, 'email')}
-          />
+        />
         <StyledTextInput
           wrapperStyle={styles.interactionWrapper}
           style={styles.textInput}
           placeholderTextColor={colors.charcoalGrey(0.3)}
           selectionColor={colors.charcoalGrey()}
           returnKeyType="next"
-          placeholder="password"
-          onChangeText={this.handleTextChange.bind(this, 'password')}
-          />
+          placeholder="password1"
+          onChangeText={this.handleTextChange.bind(this, 'password1')}
+        />
+
         <StyledTextInput
           wrapperStyle={styles.interactionWrapper}
           style={styles.textInput}
           placeholderTextColor={colors.charcoalGrey(0.3)}
           selectionColor={colors.charcoalGrey()}
           returnKeyType="next"
-          placeholder="password check"
-          onChangeText={this.handleTextChange.bind(this, 'passwordCheck')}            
-          />    
+          placeholder="password2"
+          onChangeText={this.handleTextChange.bind(this, 'password2')}
+        />
+
         <StyledButton
           style={styles.SignUpButton}
           titleStyle={styles.SignUpButtonText}
           title="Sign Up"
           onPress={this.handleSignUp.bind(this)}
-          //rightItem={<Image source={ListArrow} />} 
-          />
-      
+          //rightItem={<Image source={ListArrow} />}
+        />
+
       </View>
     );
   }
@@ -149,10 +162,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //alignItems: 'center',
-    //justifyContent: 'center',  
+    //justifyContent: 'center',
   },
 
-    interactionWrapper: {
+  interactionWrapper: {
     borderBottomWidth: 1,
     borderBottomColor: colors.charcoalGrey(0.3),
     paddingRight: 10,
@@ -179,11 +192,10 @@ const styles = StyleSheet.create({
   },
 
     SignUpButtonText: {
-    textAlign: 'center', 
+    textAlign: 'center',
   },
 
 });
-
 
 
 export default connect(

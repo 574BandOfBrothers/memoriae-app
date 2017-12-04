@@ -28,8 +28,22 @@ export const signOutRequest = () => dispatch => {
 }
 
 
-export const signUpRequest = () => dispatch => {
+export const signUpRequest = signUpData => dispatch => {
   dispatch({
-    type: 'AUTH/SIGN_UP_COMPLETE',
+    type: 'AUTH/SIGN_UP_REQUEST',
+  });
+
+  api.signUp(signUpData)
+  .then((signUpResponse) => {
+    return dispatch({
+      type: 'AUTH/SIGN_UP_COMPLETE',
+      data: signUpResponse,
+    });
+  })
+  .catch(errorResponse => {
+    return dispatch({
+      type: 'AUTH/SIGN_UP_REQUEST_FAIL',
+      error: errorResponse,
+    });
   });
 }
