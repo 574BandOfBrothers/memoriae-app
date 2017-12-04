@@ -66,7 +66,13 @@ export default class Api {
     return headers;
   }
 
-  signIn() {
+  signIn(data) {
+    return fetch(`${this._url}/authenticate`, {
+      method: 'post',
+      headers: this.header(),
+      body: JSON.stringify(data),
+    }).then(handleResponse, handleError);
+
     // TODO: actual fetch request to the api
     return Promise.resolve({
       accessToken: '123',

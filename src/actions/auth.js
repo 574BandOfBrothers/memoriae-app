@@ -5,7 +5,7 @@ export const signInRequest = signInData => dispatch => {
     type: 'AUTH/SIGN_IN_REQUEST'
   });
 
-  api.signIn()
+  api.signIn(signInData)
   .then((signInResponse) => {
     return dispatch({
       type: 'AUTH/SIGN_IN_COMPLETE',

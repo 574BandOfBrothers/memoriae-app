@@ -38,14 +38,16 @@ class SignInScreen extends Component {
     this.setState({
       account: this.state.account.set(field, value),
     });
-    //console.warn(this.state.account)
   }
 
-
   handleSignIn() {
-    this.props.signInRequest();
-    console.warn(this.state.account)
-    // CONNECT TO API
+    const email_ = this.state.account.get('email');
+    const password_ = this.state.account.get('password');
+
+    this.props.signInRequest({
+      email: email_,
+      password: password_,
+    });
   }
 
   render() {
