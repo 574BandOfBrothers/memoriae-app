@@ -7,12 +7,14 @@ export const signInRequest = signInData => dispatch => {
 
   api.signIn(signInData)
   .then((signInResponse) => {
+    console.log(signInResponse);
     return dispatch({
       type: 'AUTH/SIGN_IN_COMPLETE',
       data: signInResponse,
     });
   })
   .catch(errorResponse => {
+    console.log(errorResponse);
     return dispatch({
       type: 'AUTH/SIGN_IN_REQUEST_FAIL',
       error: errorResponse,

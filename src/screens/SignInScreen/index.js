@@ -41,23 +41,16 @@ class SignInScreen extends Component {
   }
 
   handleSignIn() {
-    const email_ = this.state.account.get('email');
-    const password_ = this.state.account.get('password');
-
-    this.props.signInRequest({
-      email: email_,
-      password: password_,
-    });
+    this.props.signInRequest(this.state.account.toJS());
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.IconStyle}>
+          <Image source={require('../../assets/images/icon.png')} />
+        </View>
 
-        <Image
-          style={styles.iconStyle}
-          source={require('../../assets/images/icon.png')}
-        />
         <StyledTextInput
           wrapperStyle={styles.interactionWrapper}
           style={styles.textInput}
