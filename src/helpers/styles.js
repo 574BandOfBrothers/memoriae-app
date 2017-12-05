@@ -19,6 +19,7 @@ export const colors = {
   charcoalGrey: (alpha = 1) => `rgba(74, 74, 74, ${alpha})`,
   bazaar: (alpha = 1) => `rgba(158, 112, 118, ${alpha})`,
   catSkillWhite: (alpha = 1) => `rgba(229, 242, 243, ${alpha})`,
+  backGroundBlue: (alpha = 1) => `rgba(183, 207, 219, ${alpha})`,
 };
 
 export const textStyles = {
