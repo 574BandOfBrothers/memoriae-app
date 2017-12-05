@@ -1,9 +1,6 @@
 {
   "expo": {
     "sdkVersion": "21.0.0",
-    "privacy": "unlisted",
-    "packagerOpts": {
-      "nonPersistent": true
-    }
+    "privacy": "unlisted"
   }
 }
