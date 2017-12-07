@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { signOutRequest } from '../../actions/auth';
 
 import StyledTextInput from '../../components/StyledTextInput';
 import StyledButton from '../../components/StyledButton';
@@ -12,6 +15,12 @@ import {
 } from 'react-native';
 
 class ProfileScreen extends Component {
+
+  handleSignOut() {
+    this.props.signOutRequest();
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -21,7 +30,7 @@ class ProfileScreen extends Component {
            style={styles.SignOutButton}
            titleStyle={styles.SignOutButtonText}
            title="Sign Out"
-           onPress={() => this.props.navigation.navigate('SignOut')}
+           onPress={this.handleSignOut.bind(this)}
            //rightItem={<Image source={ListArrow} />} 
            />        
 
@@ -62,4 +71,9 @@ const styles = StyleSheet.create({
 
 });
 
-export default ProfileScreen;
+export default connect(
+  state => ({}),
+  {
+    signOutRequest,
+  }
+)(ProfileScreen);

@@ -53,11 +53,12 @@ class SignInScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-
-        <Image
-          style={styles.iconStyle}
-          source={require('../../assets/images/icon.png')}
-        />
+        <View style={styles.iconStyle}>
+          <Image
+            style={styles.iconStyle}
+            source={require('../../assets/images/logo.png')}
+          />
+        </View>
         <StyledTextInput
           wrapperStyle={styles.interactionWrapper}
           style={styles.textInput}
@@ -107,7 +108,7 @@ class SignInScreen extends Component {
 }
 
 SignInScreen.navigationOptions = {
-  title: 'Memoriae',
+  title: 'Welcome to Memoriae',
 }
 
 const styles = StyleSheet.create({
@@ -115,17 +116,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backGroundBlue(0.3),
     flexDirection: 'column',
+    paddingRight: 20,
+    paddingLeft: 20,
     //alignItems: 'center',
     //justifyContent: 'center',
   },
 
   iconStyle: {
-    //width: 100,
-    //height: 100,
-    //borderRadius: 2,
-    flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    paddingRight: 20,
+    paddingLeft: 20,
   },
 
     interactionWrapper: {
@@ -193,7 +193,6 @@ const styles = StyleSheet.create({
   ForgotButtonText: {
     textAlign: 'center',
   },
-
 
 });
 

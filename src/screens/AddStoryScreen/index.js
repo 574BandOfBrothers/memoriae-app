@@ -66,7 +66,6 @@ class AddStoryScreen extends Component {
     this.setState({
       story: this.state.story.set(field, value),
     });
-    console.warn(this.state.story)
   }
 
   handleSave() {
