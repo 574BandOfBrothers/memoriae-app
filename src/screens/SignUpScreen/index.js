@@ -34,6 +34,25 @@ const passwEmptyAlert = () => {
   )
 }
 
+const EmptyAlert = () => {
+  Alert.alert(
+    'Please Fill All the Fields Correctly'
+  )
+}
+
+const RegSuccessAlert = (email_) => {
+  Alert.alert(
+    'Hurray! Registration is Sucessfull for ' + email_  
+  )
+}
+
+const InvalidEmailAlert = () => {
+  Alert.alert(
+    'Please Enter a Valid Email'
+  )
+}
+
+
 class SignUpScreen extends Component {
   constructor(props) {
     super(props);
@@ -56,7 +75,6 @@ class SignUpScreen extends Component {
     this.setState({
       account: this.state.account.set(field, value),
     });
-    //console.warn(this.state.account)
   }
 
   handleSignUp() {
@@ -65,28 +83,23 @@ class SignUpScreen extends Component {
     const password1_ = this.state.account.get('password1');
     const password2_ = this.state.account.get('password2');
 
-    // Check Name
+    // Check All Fields
+    if (name_ == '' || email_ == '' || password1_ == ''|| password2_ == ''){
+      return EmptyAlert()
+    }
+    // Check email
+    if (email_.indexOf('@') > -1 && email_.indexOf('.') > -1) {
+    }
+    else {
+    return InvalidEmailAlert();    
+    }
 
     // Check Password
-    if (password1_ || password2_) {
-      if (password1_ == password2_) {
-        console.warn('passwords are OK')
-        this.props.signUpRequest();
-      }
-      else {
-        console.warn('passwords are diffrent')
-      }
+    if (password1_ == password2_) {
+      this.props.signUpRequest();
     }
     else {
-      console.warn('passwords cannot be null')
-    }
-
-    // Check email
-    if (email_.indexOf('@') > -1) {
-      //@ is found no problem
-    }
-    else {
-      console.warn('Please enter a valid email')
+      return passwDiffAlert();
     }
 
     this.props.signUpRequest({
@@ -108,7 +121,7 @@ class SignUpScreen extends Component {
           placeholderTextColor={colors.charcoalGrey(0.3)}
           selectionColor={colors.charcoalGrey()}
           returnKeyType="next"
-          placeholder="name"
+          placeholder="User Name"
           onChangeText={this.handleTextChange.bind(this, 'name')}
         />
 
