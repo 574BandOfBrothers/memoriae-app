@@ -12,6 +12,8 @@ import {
   StyleSheet,
   View,
   Text,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 class ProfileScreen extends Component {
@@ -23,18 +25,22 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Profile Screen</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <Text>Profile Screen</Text>
 
-        <StyledButton
-           style={styles.SignOutButton}
-           titleStyle={styles.SignOutButtonText}
-           title="Sign Out"
-           onPress={this.handleSignOut.bind(this)}
-           //rightItem={<Image source={ListArrow} />} 
-           />        
+          <StyledButton
+             style={styles.SignOutButton}
+             titleStyle={styles.SignOutButtonText}
+             title="Sign Out"
+             onPress={this.handleSignOut.bind(this)}
+             //rightItem={<Image source={ListArrow} />} 
+             />        
 
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
+        
+
     );
   }
 }

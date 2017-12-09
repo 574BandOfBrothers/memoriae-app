@@ -8,6 +8,8 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Map, List } from 'immutable';
 import DatePicker from 'react-native-datepicker'
@@ -88,94 +90,96 @@ class AddStoryScreen extends Component {
     const { images, story } = this.state;
     const isSaveInProgress = addStoryScreen.get('isSaveInProgress');
     return (
-      <View style={styles.container}>
-        <KeyboardAwareScrollView
-          enableOnAndroid={true}
-          contentContainerStyle={StyleSheet.flatten(styles.scrollContainer)}>
-          <StyledTextInput
-            wrapperStyle={styles.interactionWrapper}
-            style={styles.textInput}
-            placeholderTextColor={colors.charcoalGrey(0.3)}
-            selectionColor={colors.charcoalGrey()}
-            returnKeyType="next"
-            placeholder="Title for your memory"
-            value={story.get('title')}
-            onChangeText={this.handleTextChange.bind(this, 'title')}/>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>      
+        <View style={styles.container}>
+          <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            contentContainerStyle={StyleSheet.flatten(styles.scrollContainer)}>
+            <StyledTextInput
+              wrapperStyle={styles.interactionWrapper}
+              style={styles.textInput}
+              placeholderTextColor={colors.charcoalGrey(0.3)}
+              selectionColor={colors.charcoalGrey()}
+              returnKeyType="next"
+              placeholder="Title for your memory"
+              value={story.get('title')}
+              onChangeText={this.handleTextChange.bind(this, 'title')}/>
 
-          <StyledTextInput
-            wrapperStyle={styles.interactionWrapper}
-            style={styles.textInput}
-            placeholderTextColor={colors.charcoalGrey(0.3)}
-            selectionColor={colors.charcoalGrey()}
-            returnKeyType="next"
-            placeholder="Date for your memory"
-            value={story.get('time')}
-            onChangeText={this.handleTextChange.bind(this, 'time')}/>
+            <StyledTextInput
+              wrapperStyle={styles.interactionWrapper}
+              style={styles.textInput}
+              placeholderTextColor={colors.charcoalGrey(0.3)}
+              selectionColor={colors.charcoalGrey()}
+              returnKeyType="next"
+              placeholder="Date for your memory"
+              value={story.get('time')}
+              onChangeText={this.handleTextChange.bind(this, 'time')}/>
 
-          <DatePicker
-            style={{width: 200}}
-            date={this.state.date}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="1800-05-01"
-            maxDate="2030-06-01"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={styles.timeInput}
-            //onDateChange={(date) => {this.setState({date: date})}}
-            onDateChange={this.handleTextChange.bind(this, 'time')}/>            
+            <DatePicker
+              style={{width: 200}}
+              date={this.state.date}
+              mode="date"
+              placeholder="select date"
+              format="YYYY-MM-DD"
+              minDate="1800-05-01"
+              maxDate="2030-06-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={styles.timeInput}
+              //onDateChange={(date) => {this.setState({date: date})}}
+              onDateChange={this.handleTextChange.bind(this, 'time')}/>            
 
-          <StyledTextInput
-            wrapperStyle={styles.interactionWrapperMultiline}
-            style={styles.textInputMultiline}
-            placeholderTextColor={colors.charcoalGrey(0.3)}
-            selectionColor={colors.charcoalGrey()}
-            returnKeyType="next"
-            placeholder="Write about your memory"
-            multiline={true}
-            maxHeight={250}
-            value={story.get('body')}
-            onChangeText={this.handleTextChange.bind(this, 'body')}/>
+            <StyledTextInput
+              wrapperStyle={styles.interactionWrapperMultiline}
+              style={styles.textInputMultiline}
+              placeholderTextColor={colors.charcoalGrey(0.3)}
+              selectionColor={colors.charcoalGrey()}
+              returnKeyType="next"
+              placeholder="Write about your memory"
+              multiline={true}
+              maxHeight={250}
+              value={story.get('body')}
+              onChangeText={this.handleTextChange.bind(this, 'body')}/>
 
-          <StyledTextInput
-            wrapperStyle={styles.interactionWrapper}
-            style={styles.textInput}
-            placeholderTextColor={colors.charcoalGrey(0.3)}
-            selectionColor={colors.charcoalGrey()}
-            returnKeyType="next"
-            placeholder="Tag your memory"
-            value={story.get('tags')}
-            onChangeText={this.handleTextChange.bind(this, 'tags')}/>
+            <StyledTextInput
+              wrapperStyle={styles.interactionWrapper}
+              style={styles.textInput}
+              placeholderTextColor={colors.charcoalGrey(0.3)}
+              selectionColor={colors.charcoalGrey()}
+              returnKeyType="next"
+              placeholder="Tag your memory"
+              value={story.get('tags')}
+              onChangeText={this.handleTextChange.bind(this, 'tags')}/>
 
-          <StyledButton
-            style={styles.interactionWrapper}
-            titleStyle={styles.addImageTitle}
-            title="Add image to your memory"
-            onPress={this.handleImageButtonPress.bind(this)}
-            rightItem={<Image source={ListArrow} />} />
+            <StyledButton
+              style={styles.interactionWrapper}
+              titleStyle={styles.addImageTitle}
+              title="Add image to your memory"
+              onPress={this.handleImageButtonPress.bind(this)}
+              rightItem={<Image source={ListArrow} />} />
 
-          { images && images.count() > 0 &&
-            <FlatList
-              style={styles.list}
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
-              data={images.toJS().reverse()}
-              keyExtractor={(item, index) => index}
-              renderItem={renderListImage} />
-          }
+            { images && images.count() > 0 &&
+              <FlatList
+                style={styles.list}
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+                data={images.toJS().reverse()}
+                keyExtractor={(item, index) => index}
+                renderItem={renderListImage} />
+            }
 
-          <StyledButton
-            style={styles.saveButton}
-            titleStyle={styles.saveButtonText}
-            shadow={true}
-            disabled={isSaveInProgress}
-            title={isSaveInProgress ? 'Loading...' : 'Create Memory' }
-            rightItem={isSaveInProgress ? <ActivityIndicator /> : null }
-            onPress={this.handleSave.bind(this)}/>
+            <StyledButton
+              style={styles.saveButton}
+              titleStyle={styles.saveButtonText}
+              shadow={true}
+              disabled={isSaveInProgress}
+              title={isSaveInProgress ? 'Loading...' : 'Create Memory' }
+              rightItem={isSaveInProgress ? <ActivityIndicator /> : null }
+              onPress={this.handleSave.bind(this)}/>
 
-        </KeyboardAwareScrollView>
-      </View>
+          </KeyboardAwareScrollView>
+        </View>
+      </TouchableWithoutFeedback>        
     );
   }
 }
