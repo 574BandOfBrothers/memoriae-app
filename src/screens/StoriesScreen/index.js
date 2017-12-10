@@ -9,6 +9,8 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import { fetchStories } from '../../actions/stories';

@@ -17,6 +17,8 @@ import {
   Button,
   TextInput,
   Image,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 class SignInScreen extends Component {
@@ -52,7 +54,8 @@ class SignInScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
         <View style={styles.iconStyle}>
           <Image
             style={styles.iconStyle}
@@ -101,8 +104,9 @@ class SignInScreen extends Component {
           //onPress={this.handleImageButtonPress.bind(this)}
           //rightItem={<Image source={ListArrow} />}
         />
-
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
+        
     );
   }
 }

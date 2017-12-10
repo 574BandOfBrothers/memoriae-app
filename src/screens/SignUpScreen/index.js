@@ -19,6 +19,8 @@ import {
   TextInput,
   Alert,
   Picker,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 
@@ -114,55 +116,57 @@ class SignUpScreen extends Component {
     //const { story } = this.state;
 
     return (
-      <View style={styles.container}>
-        <StyledTextInput
-          wrapperStyle={styles.interactionWrapper}
-          style={styles.textInput}
-          placeholderTextColor={colors.charcoalGrey(0.3)}
-          selectionColor={colors.charcoalGrey()}
-          returnKeyType="next"
-          placeholder="User Name"
-          onChangeText={this.handleTextChange.bind(this, 'name')}
-        />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <StyledTextInput
+            wrapperStyle={styles.interactionWrapper}
+            style={styles.textInput}
+            placeholderTextColor={colors.charcoalGrey(0.3)}
+            selectionColor={colors.charcoalGrey()}
+            returnKeyType="next"
+            placeholder="User Name"
+            onChangeText={this.handleTextChange.bind(this, 'name')}
+          />
 
-        <StyledTextInput
-          wrapperStyle={styles.interactionWrapper}
-          style={styles.textInput}
-          placeholderTextColor={colors.charcoalGrey(0.3)}
-          selectionColor={colors.charcoalGrey()}
-          returnKeyType="next"
-          placeholder="e-mail"
-          onChangeText={this.handleTextChange.bind(this, 'email')}
-        />
-        <StyledTextInput
-          wrapperStyle={styles.interactionWrapper}
-          style={styles.textInput}
-          placeholderTextColor={colors.charcoalGrey(0.3)}
-          selectionColor={colors.charcoalGrey()}
-          returnKeyType="next"
-          placeholder="password1"
-          onChangeText={this.handleTextChange.bind(this, 'password1')}
-        />
+          <StyledTextInput
+            wrapperStyle={styles.interactionWrapper}
+            style={styles.textInput}
+            placeholderTextColor={colors.charcoalGrey(0.3)}
+            selectionColor={colors.charcoalGrey()}
+            returnKeyType="next"
+            placeholder="e-mail"
+            onChangeText={this.handleTextChange.bind(this, 'email')}
+          />
+          <StyledTextInput
+            wrapperStyle={styles.interactionWrapper}
+            style={styles.textInput}
+            placeholderTextColor={colors.charcoalGrey(0.3)}
+            selectionColor={colors.charcoalGrey()}
+            returnKeyType="next"
+            placeholder="password1"
+            onChangeText={this.handleTextChange.bind(this, 'password1')}
+          />
 
-        <StyledTextInput
-          wrapperStyle={styles.interactionWrapper}
-          style={styles.textInput}
-          placeholderTextColor={colors.charcoalGrey(0.3)}
-          selectionColor={colors.charcoalGrey()}
-          returnKeyType="next"
-          placeholder="password2"
-          onChangeText={this.handleTextChange.bind(this, 'password2')}
-        />
+          <StyledTextInput
+            wrapperStyle={styles.interactionWrapper}
+            style={styles.textInput}
+            placeholderTextColor={colors.charcoalGrey(0.3)}
+            selectionColor={colors.charcoalGrey()}
+            returnKeyType="next"
+            placeholder="password2"
+            onChangeText={this.handleTextChange.bind(this, 'password2')}
+          />
 
-        <StyledButton
-          style={styles.SignUpButton}
-          titleStyle={styles.SignUpButtonText}
-          title="Sign Up"
-          onPress={this.handleSignUp.bind(this)}
-          //rightItem={<Image source={ListArrow} />}
-        />
+          <StyledButton
+            style={styles.SignUpButton}
+            titleStyle={styles.SignUpButtonText}
+            title="Sign Up"
+            onPress={this.handleSignUp.bind(this)}
+            //rightItem={<Image source={ListArrow} />}
+          />
 
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

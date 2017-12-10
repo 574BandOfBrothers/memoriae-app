@@ -16,6 +16,8 @@ import {
   Text,
   Button,
   TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 class ForgotPwScreen extends Component {
@@ -26,23 +28,26 @@ class ForgotPwScreen extends Component {
   render() {
     const { auth, navigation } = this.props;
     return (
-      <View style={styles.container}>
-        <StyledTextInput
-            wrapperStyle={styles.interactionWrapper}
-            style={styles.textInput}
-            placeholderTextColor={colors.charcoalGrey(0.3)}
-            selectionColor={colors.charcoalGrey()}
-            returnKeyType="next"
-            placeholder="e-mail"
-            />  
-        <StyledButton
-           style={styles.ForgotPwButton}
-           titleStyle={styles.ForgotPwButtonText}
-           title="Forgot Password"
-           //onPress={this.handleImageButtonPress.bind(this)}
-           //rightItem={<Image source={ListArrow} />} 
-           />
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>  
+        <View style={styles.container}>
+          <StyledTextInput
+              wrapperStyle={styles.interactionWrapper}
+              style={styles.textInput}
+              placeholderTextColor={colors.charcoalGrey(0.3)}
+              selectionColor={colors.charcoalGrey()}
+              returnKeyType="next"
+              placeholder="e-mail"
+              />  
+          <StyledButton
+             style={styles.ForgotPwButton}
+             titleStyle={styles.ForgotPwButtonText}
+             title="Forgot Password"
+             //onPress={this.handleImageButtonPress.bind(this)}
+             //rightItem={<Image source={ListArrow} />} 
+             />
+        </View>
+      </TouchableWithoutFeedback>
+        
     );
   }
 }
