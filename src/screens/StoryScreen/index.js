@@ -54,8 +54,8 @@ class AddStoryScreen extends Component {
     )
   }
 
-  handleListAnnotations() {
-     this.props.navigation.navigate('ListAnnotations', {
+  handleListAnnotations(storyId) {
+     this.props.navigation.navigate('AnnotationList', {
       storyId,
      });
   }
@@ -86,7 +86,6 @@ class AddStoryScreen extends Component {
       selection
     })
   }
-
   render() {
     const { story } = this.state;
     const { navigation } = this.props;

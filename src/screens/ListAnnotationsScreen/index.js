@@ -17,7 +17,6 @@ import { fetchAnnotations} from '../../actions/annotations';
 
 import { textStyles, colors } from '../../helpers/styles';
 
-import AddIcon from '../../assets/icons/add.png';
 
 const viewport = {
   width: Dimensions.get('window').width,

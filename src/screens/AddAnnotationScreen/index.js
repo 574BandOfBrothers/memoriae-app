@@ -52,6 +52,7 @@ class AddAnnotationScreen extends Component {
 
   handleSelection({ nativeEvent }) {
     const { selection } = nativeEvent;
+
     this.setState({
       selection,
     })
