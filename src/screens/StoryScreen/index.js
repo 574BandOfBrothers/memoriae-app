@@ -17,7 +17,7 @@ import ActivityIndicator from '../../components/ActivityIndicator';
 import { fetchStory } from '../../actions/stories';
 
 import { textStyles, colors } from '../../helpers/styles';
-
+import StyledButton from '../../components/StyledButton';
 const viewport = {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height
@@ -47,6 +47,17 @@ class AddStoryScreen extends Component {
     )
   }
 
+  handleListAnnotations() {
+     this.props.navigation.navigate('ListAnnotations', {
+      storyId,
+     });
+  }
+  handleCreateAnnotation() {
+     this.props.navigation.navigate('AddAnnotation', {
+      storyId,
+     });
+  }
+
   render() {
     const { story } = this.state;
 
@@ -64,6 +75,20 @@ class AddStoryScreen extends Component {
         <View style={styles.storyInfoContainer}>
           <Text style={styles.storyTitle}>{ story.get('title') }</Text>
           <Text style={styles.storyBody}>{ story.get('body') }</Text>
+          
+          <StyledButton
+             style={styles.CreateAnnotationButton}
+             titleStyle={styles.CreateAnnotationButtonText}
+             title="Create Annotation"
+             onPress={this.handleCreateAnnotation.bind(story._id)}
+          />        
+          <StyledButton
+             style={styles.ListAnnotationsButton}
+             titleStyle={styles.ListAnnotationsButtonText}
+             title="List Annotations"
+             onPress={this.handleListAnnotations.bind(story._id)}
+          />    
+
         </View>
       </ScrollView>
     );
@@ -77,6 +102,7 @@ AddStoryScreen.navigationOptions = props => {
     title: params && params.title,
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -100,6 +126,42 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.charcoalGrey(),
     marginBottom: 3,
+  },
+  CreateAnnotationButton: {
+    marginTop: 20,
+    marginBottom: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
+    height: 53,
+    borderRadius: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.ocean(),
+  },
+
+    CreateAnnotationButtonText: {
+    textAlign: 'center', 
+    color: colors.whiteThree(),
+
+  },
+  ListAnnotationsButton: {
+    marginTop: 20,
+    marginBottom: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
+    height: 53,
+    borderRadius: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.whiteThree()
+  },
+
+    ListAnnotationsButtonText: {
+    textAlign: 'center', 
+    color: colors.ocean(),
+
   }
 });
 
