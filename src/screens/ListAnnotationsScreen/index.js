@@ -17,6 +17,7 @@ import { fetchAnnotations} from '../../actions/annotations';
 
 import { textStyles, colors } from '../../helpers/styles';
 
+import AddIcon from '../../assets/icons/add.png';
 
 const viewport = {
   width: Dimensions.get('window').width,
@@ -27,8 +28,6 @@ class ListAnnotationsScreen extends Component {
   componentDidMount() {
     this.props.annotations.size === 0 && this.props.fetchAnnotations();
   }
-
-  
 
   renderAnnotationItem({ item, index }) {
     return (
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
 ListAnnotationsScreen.navigationOptions = ({ navigation }) => {
   return {
     title: 'Annotation List',
-   
   }
 }
 

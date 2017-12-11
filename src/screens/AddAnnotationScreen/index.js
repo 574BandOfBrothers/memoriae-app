@@ -45,16 +45,18 @@ class AddAnnotationScreen extends Component {
     };
 
   }
+
   createContent(){
 
   }
+
   handleSelection({ nativeEvent }) {
     const { selection } = nativeEvent;
-    
     this.setState({
       selection,
     })
   }
+
   handleImageButtonPress() {
     ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -84,7 +86,7 @@ class AddAnnotationScreen extends Component {
 
     })
 */
-    
+
   }
   render() {
     const { images } = this.state;
@@ -92,7 +94,7 @@ class AddAnnotationScreen extends Component {
       <View style={styles.container}>
         <Text style={styles.storyTitle}>{ "AnnotationTarget:"+this.state.storyIDParam}</Text>
         <Text style={styles.storyTitle}>{ "AnnotationTextSelection:"+this.state.text+"["+this.state.selectionStart+","+this.state.selectionEnd+"]"}</Text>
-       
+
        <StyledTextInput
               wrapperStyle={styles.interactionWrapperMultiline}
               style={styles.textInputMultiline}
@@ -124,8 +126,7 @@ class AddAnnotationScreen extends Component {
              titleStyle={styles.CreateAnnotationButtonText}
              title="Record Annotation"
              onPress={this.handleAddAnnotation.bind(this, null)}
-          />    
-
+          />
       </View>
     );
   }
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
   },
 
     CreateAnnotationButtonText: {
-    textAlign: 'center', 
+    textAlign: 'center',
     color: colors.whiteThree(),
 
   },
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     ...textStyles.semiBoldWhite,
   },
 
-  timeInput:{ 
+  timeInput:{
     //dateIcon: {
     position: 'absolute',
     left: 0,
@@ -250,8 +251,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 45,
   },
-
 });
-
 
 export default AddAnnotationScreen;
