@@ -13,12 +13,13 @@ class AddAnnotationScreen extends Component {
     super(props);
 
     this.state = {
-      text: 'Lorem ipsum doloasdsadasing elit. Mauris imperdiet eros venenatis diam mattis efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut et vestibulum diam. Mauris convallis nibh dolor, eget varius ipsum accumsan at. Sed vel gravida massa, ut aliquam sem. Suspendisse ornare sit amet elit id suscipit. Maecenas sodales, metus eu dapibus faucibus, eros urna ullamcorper nulla, nec tristique odio metus vel lorem. Maecenas at nunc non mi posuere pharetra. Phasellus mollis, ipsum in pharetra tincidunt, ligula enim lacinia ipsum, ut vulputate leo nisl nec ante. Praesent vel tempor libero. Etiam cursus ligula vel sem feugiat cursus. Donec ornare nulla in dui pharetra vulputate. Aliquam non pretium velit, vel rhoncus nunc. Etiam blandit non ex in feugiat. Vivamus eleifend sit amet nisi eget tristique.',
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet eros venenatis diam mattis efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut et vestibulum diam. Mauris convallis nibh dolor, eget varius ipsum accumsan at. Sed vel gravida massa, ut aliquam sem. Suspendisse ornare sit amet elit id suscipit. Maecenas sodales, metus eu dapibus faucibus, eros urna ullamcorper nulla, nec tristique odio metus vel lorem. Maecenas at nunc non mi posuere pharetra. Phasellus mollis, ipsum in pharetra tincidunt, ligula enim lacinia ipsum, ut vulputate leo nisl nec ante. Praesent vel tempor libero. Etiam cursus ligula vel sem feugiat cursus. Donec ornare nulla in dui pharetra vulputate. Aliquam non pretium velit, vel rhoncus nunc. Etiam blandit non ex in feugiat. Vivamus eleifend sit amet nisi eget tristique.',
       selection: null,
     };
   }
   handleSelection({ nativeEvent }) {
     const { selection } = nativeEvent;
+    
     this.setState({
       selection,
     })

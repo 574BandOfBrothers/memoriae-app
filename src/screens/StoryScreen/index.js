@@ -5,10 +5,13 @@ import {
   View,
   Text,
   Image,
+  TextInput,
   TouchableOpacity,
   FlatList,
   ScrollView,
   Dimensions,
+  Keyboard,  
+  Alert,
 } from 'react-native';
 import { Map, List } from 'immutable';
 
@@ -32,6 +35,9 @@ class AddStoryScreen extends Component {
 
     this.state = {
       story: story,
+      storyBody: story.get('body'),
+      selectedText: null,
+      selection: null,
     };
   }
 
@@ -47,20 +53,32 @@ class AddStoryScreen extends Component {
     )
   }
 
-  handleListAnnotations() {
-     this.props.navigation.navigate('ListAnnotations', {
+  handleListAnnotations(storyId) {
+     this.props.navigation.navigate('AnnotationList', {
       storyId,
      });
   }
   handleCreateAnnotation() {
-     this.props.navigation.navigate('AddAnnotation', {
-      storyId,
-     });
+    /* this.props.navigation.navigate('AddAnnotation', {
+      storyId
+    });
+    */
+    const { selection } = this.state;
+    const selectedText = this.state.storyBody.slice(selection.start, selection.end);
+    Alert.alert(
+      'Selected Annotation',
+      selectedText
+    )
   }
-
+  handleSelection({ nativeEvent }) {
+    const { selection } = nativeEvent;
+    this.setState({
+      selection
+    })
+  }
   render() {
     const { story } = this.state;
-
+    const { navigation } = this.props;
     const medias = story && story.get('media');
 
     return (
@@ -74,19 +92,27 @@ class AddStoryScreen extends Component {
         }
         <View style={styles.storyInfoContainer}>
           <Text style={styles.storyTitle}>{ story.get('title') }</Text>
-          <Text style={styles.storyBody}>{ story.get('body') }</Text>
-          
+          <TextInput  
+            style={styles.annotationText} 
+            value = {this.state.storyBody } 
+            onSelectionChange={this.handleSelection.bind(this)}
+            multiline={true}
+            autoFocus={true}
+            editable={false}
+           >
+          </TextInput>
+        
           <StyledButton
              style={styles.CreateAnnotationButton}
              titleStyle={styles.CreateAnnotationButtonText}
              title="Create Annotation"
-             onPress={this.handleCreateAnnotation.bind(story._id)}
+             onPress={this.handleCreateAnnotation.bind(this, story.get('_id'))}
           />        
           <StyledButton
              style={styles.ListAnnotationsButton}
              titleStyle={styles.ListAnnotationsButtonText}
              title="List Annotations"
-             onPress={this.handleListAnnotations.bind(story._id)}
+             onPress={this.handleListAnnotations.bind(this, story.get('_id'))}
           />    
 
         </View>
@@ -114,6 +140,9 @@ const styles = StyleSheet.create({
   },
   storyInfoContainer: {
     padding: 20,
+  },
+  annotationText: {
+    color:colors.red
   },
   storyTitle: {
     ...textStyles.bold,
