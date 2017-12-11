@@ -10,7 +10,7 @@ import {
   FlatList,
   ScrollView,
   Dimensions,
-  Keyboard,  
+  Keyboard,
   Alert,
 } from 'react-native';
 import { Map, List } from 'immutable';
@@ -54,11 +54,12 @@ class AddStoryScreen extends Component {
     )
   }
 
-  handleListAnnotations(storyId) {
-     this.props.navigation.navigate('AnnotationList', {
+  handleListAnnotations() {
+     this.props.navigation.navigate('ListAnnotations', {
       storyId,
      });
   }
+
   handleCreateAnnotation() {
     const { selection } = this.state;
     const selectedText  = this.state.storyBody.slice(selection.start, selection.end);
@@ -78,10 +79,6 @@ class AddStoryScreen extends Component {
         'Alert!','Please select image or text area to annotate!'
       )
     }
-   
-    
-  
- 
   }
   handleSelection({ nativeEvent }) {
     const { selection } = nativeEvent;
@@ -89,6 +86,7 @@ class AddStoryScreen extends Component {
       selection
     })
   }
+
   render() {
     const { story } = this.state;
     const { navigation } = this.props;
@@ -105,28 +103,25 @@ class AddStoryScreen extends Component {
         }
         <View style={styles.storyInfoContainer}>
           <Text style={styles.storyTitle}>{ story.get('title') }</Text>
-          <TextInput  
-            style={styles.annotationText} 
-            value = {this.state.storyBody } 
+          <TextInput
+            style={styles.annotationText}
+            value = {this.state.storyBody }
             onSelectionChange={this.handleSelection.bind(this)}
             multiline={true}
-            
-            editable={false}
-           >
+            editable={false}>
           </TextInput>
-        
           <StyledButton
              style={styles.CreateAnnotationButton}
              titleStyle={styles.CreateAnnotationButtonText}
              title="Create Annotation"
              onPress={this.handleCreateAnnotation.bind(this, story.get('_id'))}
-          />        
+          />
           <StyledButton
              style={styles.ListAnnotationsButton}
              titleStyle={styles.ListAnnotationsButtonText}
              title="List Annotations"
              onPress={this.handleListAnnotations.bind(this, story.get('_id'))}
-          />    
+          />
 
         </View>
       </ScrollView>
@@ -183,7 +178,7 @@ const styles = StyleSheet.create({
   },
 
     CreateAnnotationButtonText: {
-    textAlign: 'center', 
+    textAlign: 'center',
     color: colors.whiteThree(),
 
   },
@@ -201,7 +196,7 @@ const styles = StyleSheet.create({
   },
 
     ListAnnotationsButtonText: {
-    textAlign: 'center', 
+    textAlign: 'center',
     color: colors.ocean(),
 
   }

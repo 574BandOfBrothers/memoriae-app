@@ -131,7 +131,6 @@ export default class Api {
     }).then(handleResponse, handleError);
   }
 
-
   searchStories(query) {
     return fetch(`${this._url}/search?query=${query}`, {
       method: 'get',
