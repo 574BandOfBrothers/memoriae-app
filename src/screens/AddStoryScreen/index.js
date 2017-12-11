@@ -90,8 +90,7 @@ class AddStoryScreen extends Component {
     const { images, story } = this.state;
     const isSaveInProgress = addStoryScreen.get('isSaveInProgress');
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>      
-        <View style={styles.container}>
+      <View style={styles.container} onPress={Keyboard.dismiss}>
           <KeyboardAwareScrollView
             enableOnAndroid={true}
             contentContainerStyle={StyleSheet.flatten(styles.scrollContainer)}>
@@ -178,8 +177,7 @@ class AddStoryScreen extends Component {
               onPress={this.handleSave.bind(this)}/>
 
           </KeyboardAwareScrollView>
-        </View>
-      </TouchableWithoutFeedback>        
+      </View>
     );
   }
 }
