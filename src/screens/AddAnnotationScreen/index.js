@@ -87,7 +87,6 @@ class AddAnnotationScreen extends Component {
 
     })
 */
-
   }
   render() {
     const { images } = this.state;
