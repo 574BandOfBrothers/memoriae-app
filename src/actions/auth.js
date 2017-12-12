@@ -34,11 +34,8 @@ export const signUpRequest = signUpData => dispatch => {
   });
 
   api.signUp(signUpData)
-  .then((signUpResponse) => {
-    return dispatch({
-      type: 'AUTH/SIGN_UP_COMPLETE',
-      data: signUpResponse,
-    });
+  .then(() => {
+    signInRequest(signUpData,true)(dispatch);
   })
   .catch(errorResponse => {
     return dispatch({

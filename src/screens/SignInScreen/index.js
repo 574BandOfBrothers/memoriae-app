@@ -78,6 +78,7 @@ class SignInScreen extends Component {
           selectionColor={colors.charcoalGrey()}
           returnKeyType="next"
           placeholder="password"
+          secureTextEntry={true}
           onChangeText={this.handleTextChange.bind(this, 'password')}
           />
         <StyledButton

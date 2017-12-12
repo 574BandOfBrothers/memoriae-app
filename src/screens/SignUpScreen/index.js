@@ -143,7 +143,8 @@ class SignUpScreen extends Component {
             placeholderTextColor={colors.charcoalGrey(0.3)}
             selectionColor={colors.charcoalGrey()}
             returnKeyType="next"
-            placeholder="password1"
+            placeholder="password"
+            secureTextEntry={true}
             onChangeText={this.handleTextChange.bind(this, 'password1')}
           />
 
@@ -153,7 +154,8 @@ class SignUpScreen extends Component {
             placeholderTextColor={colors.charcoalGrey(0.3)}
             selectionColor={colors.charcoalGrey()}
             returnKeyType="next"
-            placeholder="password2"
+            placeholder="re-type password"
+            secureTextEntry={true}
             onChangeText={this.handleTextChange.bind(this, 'password2')}
           />
 
