@@ -38,6 +38,7 @@ class AddStoryScreen extends Component {
       storyBody: story.get('body'),
       selectedText: null,
       selection: null,
+      storyIDParam:storyId
     };
   }
 
@@ -59,16 +60,28 @@ class AddStoryScreen extends Component {
      });
   }
   handleCreateAnnotation() {
-    /* this.props.navigation.navigate('AddAnnotation', {
-      storyId
-    });
-    */
     const { selection } = this.state;
-    const selectedText = this.state.storyBody.slice(selection.start, selection.end);
-    Alert.alert(
-      'Selected Annotation',
-      selectedText
-    )
+    const selectedText  = this.state.storyBody.slice(selection.start, selection.end);
+    const storyBody = this.state.storyBody;
+    const storyIDParam = this.state.storyIDParam;
+    if(selectedText !== '' && selectedText ){
+      this.props.navigation.navigate('AddAnnotation', {
+        selectedText,
+        storyIDParam,
+        selection,
+
+
+      });
+    }
+    else{
+      Alert.alert(
+        'Alert!','Please select image or text area to annotate!'
+      )
+    }
+   
+    
+  
+ 
   }
   handleSelection({ nativeEvent }) {
     const { selection } = nativeEvent;
@@ -97,7 +110,7 @@ class AddStoryScreen extends Component {
             value = {this.state.storyBody } 
             onSelectionChange={this.handleSelection.bind(this)}
             multiline={true}
-            autoFocus={true}
+            
             editable={false}
            >
           </TextInput>
