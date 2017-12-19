@@ -1,13 +1,17 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Text, View } from 'react-native';
+import { Text, View, AsyncStorage } from 'react-native';
 import { Font } from 'expo';
+import { fromJS } from 'immutable';
+
+import { STORE_SESSION_TOKEN_KEY } from './helpers/constants';
 
 import SourceSansProLight from './assets/fonts/SourceSansPro-Light.ttf';
 import SourceSansProRegular from './assets/fonts/SourceSansPro-Regular.ttf';
 import SourceSansProSemibold from './assets/fonts/SourceSansPro-Semibold.ttf';
 import SourceSansProBold from './assets/fonts/SourceSansPro-Bold.ttf';
 
+import api from './configs/api';
 import configureStore from './store';
 import RootNavigation from './navigation/RootNavigation';
 
@@ -30,7 +34,17 @@ export default class App extends React.Component {
       'SourceSansPro-Bold': SourceSansProBold,
     });
 
-    store = configureStore();
+    let sessionTokens = await AsyncStorage.getItem(STORE_SESSION_TOKEN_KEY);
+
+    sessionTokens = JSON.parse(sessionTokens);
+
+    store = configureStore({
+      auth: fromJS(sessionTokens || {}),
+    });
+
+    if (sessionTokens) {
+      api.token = sessionTokens.accessToken;
+    }
 
     this.setState({ appReady: true });
   }
