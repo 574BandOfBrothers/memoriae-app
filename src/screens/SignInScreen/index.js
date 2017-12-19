@@ -26,13 +26,10 @@ class SignInScreen extends Component {
     super(props);
 
     this.state = {
-      account:
-        Map(
-          {
-          email: '',
-          password: '',
-          }
-        ),
+      account: Map({
+        email: '',
+        password: '',
+      }),
     };
   }
 
@@ -43,13 +40,7 @@ class SignInScreen extends Component {
   }
 
   handleSignIn() {
-    const email_ = this.state.account.get('email');
-    const password_ = this.state.account.get('password');
-
-    this.props.signInRequest({
-      email: email_,
-      password: password_,
-    });
+    this.props.signInRequest(this.state.account.toJS());
   }
 
   render() {
@@ -69,6 +60,7 @@ class SignInScreen extends Component {
           selectionColor={colors.charcoalGrey()}
           returnKeyType="next"
           placeholder="e-mail"
+          autoCapitalize="none"
           onChangeText={this.handleTextChange.bind(this, 'email')}
           />
         <StyledTextInput
@@ -79,6 +71,7 @@ class SignInScreen extends Component {
           returnKeyType="next"
           placeholder="password"
           secureTextEntry={true}
+          autoCapitalize="none"
           onChangeText={this.handleTextChange.bind(this, 'password')}
           />
         <StyledButton
@@ -107,7 +100,7 @@ class SignInScreen extends Component {
         />
         </View>
       </TouchableWithoutFeedback>
-        
+
     );
   }
 }
