@@ -1,4 +1,17 @@
+import { AsyncStorage } from 'react-native';
 import api from '../configs/api';
+
+import { STORE_SESSION_TOKEN_KEY } from '../helpers/constants';
+
+const saveAuthDataToStore = (tokens) => {
+  return AsyncStorage.setItem(STORE_SESSION_TOKEN_KEY, JSON.stringify(tokens))
+  .catch(error => console.log('saveAuthDataToStore:', error));
+}
+
+clearAuthDataFromStore = () => {
+  return AsyncStorage.removeItem(STORE_SESSION_TOKEN_KEY)
+  .catch(error => console.log('clearAuthDataFromStore:', error));
+}
 
 export const signInRequest = signInData => dispatch => {
   dispatch({
@@ -7,12 +20,16 @@ export const signInRequest = signInData => dispatch => {
 
   api.signIn(signInData)
   .then((signInResponse) => {
+    const authData = {
+      ...signInResponse,
+      email: signInData.email,
+    }
+
+    saveAuthDataToStore(authData);
+
     return dispatch({
       type: 'AUTH/SIGN_IN_COMPLETE',
-      data: {
-        ...signInResponse,
-        ...signInData,
-      },
+      data: authData,
     });
   })
   .catch(errorResponse => {
@@ -22,14 +39,6 @@ export const signInRequest = signInData => dispatch => {
     });
   });
 }
-
-
-export const signOutRequest = () => dispatch => {
-  dispatch({
-    type: 'AUTH/SIGN_OUT_COMPLETE',
-  });
-}
-
 
 export const signUpRequest = signUpData => dispatch => {
   dispatch({
@@ -44,6 +53,22 @@ export const signUpRequest = signUpData => dispatch => {
     return dispatch({
       type: 'AUTH/SIGN_UP_REQUEST_FAIL',
       error: errorResponse,
+    });
+  });
+}
+
+export const signOutRequest = () => dispatch => {
+  clearAuthDataFromStore()
+  .then(() => {
+    dispatch({
+      type: 'AUTH/SIGN_OUT_COMPLETE',
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+    dispatch({
+      type: 'AUTH/SIGN_OUT_REQUEST_FAIL',
+      error: error,
     });
   });
 }
