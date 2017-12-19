@@ -9,7 +9,10 @@ export const signInRequest = signInData => dispatch => {
   .then((signInResponse) => {
     return dispatch({
       type: 'AUTH/SIGN_IN_COMPLETE',
-      data: signInResponse,
+      data: {
+        ...signInResponse,
+        ...signInData,
+      },
     });
   })
   .catch(errorResponse => {
