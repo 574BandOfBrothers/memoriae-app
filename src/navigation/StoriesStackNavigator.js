@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import { colors, textStyles } from '../helpers/styles';
 
 import StoriesScreen from '../screens/StoriesScreen';
+import SearchScreen from '../screens/SearchScreen';
 import AddStoryScreen from '../screens/AddStoryScreen';
 import StoryScreen from '../screens/StoryScreen';
 
@@ -37,4 +38,21 @@ const StoriesStackNavigator = StackNavigator({
   },
 });
 
-export default StoriesStackNavigator;
+const SearcModalStackNavigator = StackNavigator({
+  StoriesStack: {
+    screen: StoriesStackNavigator,
+  },
+  Search: {
+    screen: SearchScreen,
+    navigationOptions: {
+      tabBarVisible: false,
+    },
+  },
+}, {
+  mode: 'modal',
+  navigationOptions: {
+    header: null
+  }
+});
+
+export default SearcModalStackNavigator;
