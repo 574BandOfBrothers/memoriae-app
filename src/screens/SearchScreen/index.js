@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from 'react-native';
 import debounce from 'lodash.debounce';
 
@@ -97,6 +98,7 @@ class StoriesScreen extends Component {
               onChangeText={this.handleSearchStories}
               autoCapitalize="none"
               returnKeyType="done"
+              underlineColorAndroid="transparent"
               onSubmitEditing={searchResults && searchResults[0] &&
                 this.handleSelectStory.bind(this, searchResults[0].id)}/>
             <TouchableOpacity onPress={this.handleClose}>
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    paddingTop: 25,
+    paddingTop: Platform.OS === 'ios' ? 25 : 33,
     paddingLeft: 8,
     paddingRight: 8,
     paddingBottom: 8,
