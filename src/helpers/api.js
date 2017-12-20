@@ -137,4 +137,21 @@ export default class Api {
       headers: this.header(),
     }).then(handleResponse, handleError);
   }
+
+// this chunk was added by BU, need to check
+  getAnnotations() {
+    return fetch(`${this._url}/annotations`, {
+      method: 'get',
+      headers: this.header(),
+    }).then(handleResponse, handleError);
+  }
+
+  createAnnotation(annotation) {
+    return fetch(`${this._url}/annotations`, {
+      method: 'post',
+      mode: 'cors',
+      headers: this.header(),
+      body: JSON.stringify(annotation),
+    }).then(handleResponse, handleError);
+  }
 }

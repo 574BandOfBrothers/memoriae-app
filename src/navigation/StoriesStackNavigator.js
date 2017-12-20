@@ -8,6 +8,8 @@ import StoriesScreen from '../screens/StoriesScreen';
 import SearchScreen from '../screens/SearchScreen';
 import AddStoryScreen from '../screens/AddStoryScreen';
 import StoryScreen from '../screens/StoryScreen';
+import ListAnnotationScreen from '../screens/ListAnnotationsScreen';
+import AddAnnotationScreen from '../screens/AddAnnotationScreen';
 
 const styles = StyleSheet.create({
   header: {
@@ -28,6 +30,12 @@ const StoriesStackNavigator = StackNavigator({
   },
   Story: {
     screen: StoryScreen,
+  },
+  AnnotationList: {
+    screen: ListAnnotationScreen,
+  },
+  AddAnnotation: {
+    screen: AddAnnotationScreen,
   },
 }, {
   navigationOptions: {
