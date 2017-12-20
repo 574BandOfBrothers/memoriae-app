@@ -60,6 +60,12 @@ export const fetchAnnotationswithkeyword = () => dispatch => {
   });
 }
 
+export const clearAddAnnotationScreen = () => dispatch => {
+  dispatch({
+    type: 'ADD_ANNOTATION_SCREEN/CLEAR',
+  });
+}
+
 export const createAnnotation = (fields, images) => dispatch => {
   dispatch({
     type: 'ANNOTATIONS/CREATE_REQUEST',

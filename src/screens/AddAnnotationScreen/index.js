@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -12,10 +12,8 @@ import {
 } from 'react-native';
 
 import { createAnnotation } from '../../actions/annotations';
+import { clearAddAnnotationScreen } from '../../actions/annotations';
 import { textStyles, colors } from '../../helpers/styles';
-
-
-
 import { Map, List } from 'immutable';
 import StyledButton from '../../components/StyledButton';
 import StyledTextInput from '../../components/StyledTextInput';
@@ -29,14 +27,7 @@ const renderListImage = ({ item, index}) => (
     />
 )
 
-var annotationData = {
-  context: 'http://www.w3.org/ns/anno.jsonld',
-  id:'http://example.org/anno20',
-  type:'Annotation',
-  body: { type: 'TextualBody', value: 'mustafa', purpose: 'tagging'},
-  target:'http://api.memoriae.online/stories/5a2f0256741e390da83b38ae',
-  "__v": 0
-};
+
 /*
 
 "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -70,16 +61,7 @@ class AddAnnotationScreen extends Component {
       selectionStart:selection.start,
       selectionEnd:selection.end,
       images: List([]),
-      annotation: Map({
-        context: 'http://www.w3.org/ns/anno.jsonld',
-        type: 'Annotation',
-        body: ({
-          type:'TextualBody',
-          value:'',
-          purpose:'describing'
-        }),
-        target: '',
-      }),
+
     };
 
   }
@@ -107,7 +89,18 @@ class AddAnnotationScreen extends Component {
     });
   }
   handleAddAnnotation() {
-    //this.props.createAnnotation(this.state.annotaiton.toJS(), this.state.images.toJS());
+   //create the text annotation data
+   var annotationData = {
+    context: 'http://www.w3.org/ns/anno.jsonld',
+    type:'Annotation',
+    body: { type: 'TextualBody', value: 'Bahattinwashere', purpose: 'tagging'},
+    target:'http://api.memoriae.online/stories/'+this.state.storyIDParam,
+    "__v": 0
+    };
+
+
+    //
+    this.props.createAnnotation(annotationData.toJS(), this.state.images.toJS());
     Alert.alert(
       'Status',
       'Annotation is Recorded!'
@@ -291,4 +284,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddAnnotationScreen;
+/* bu sorunlu olabilir */
+export default connect(
+  state => ({
+    addAnnotationScreen: state.addAnnotationScreen,
+  }), {
+    createAnnotation,
+    AddAnnotationScreen,
+  }
+)(AddAnnotationScreen);
