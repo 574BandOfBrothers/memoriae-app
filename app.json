@@ -1,6 +1,9 @@
 {
   "expo": {
     "sdkVersion": "21.0.0",
-    "privacy": "unlisted"
-  }
+    "privacy": "unlisted",
+    "androidStatusBar": {
+      "backgroundColor": "#FAFAFA"
+    }
+  },
 }
