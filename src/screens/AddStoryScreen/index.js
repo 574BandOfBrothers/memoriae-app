@@ -124,9 +124,9 @@ class AddStoryScreen extends Component {
               maxDate="2030-06-01"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
-              customStyles={styles.timeInput}
+              customStyles={StyleSheet.flatten(styles.timeInput)}
               //onDateChange={(date) => {this.setState({date: date})}}
-              onDateChange={this.handleTextChange.bind(this, 'time')}/>            
+              onDateChange={this.handleTextChange.bind(this, 'time')}/>
 
             <StyledTextInput
               wrapperStyle={styles.interactionWrapperMultiline}
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     ...textStyles.semiBoldWhite,
   },
 
-  timeInput:{ 
+  timeInput:{
     //dateIcon: {
     position: 'absolute',
     left: 0,

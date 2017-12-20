@@ -130,4 +130,11 @@ export default class Api {
       body: JSON.stringify(story),
     }).then(handleResponse, handleError);
   }
+
+  searchStories(query) {
+    return fetch(`${this._url}/search?query=${query}`, {
+      method: 'get',
+      headers: this.header(),
+    }).then(handleResponse, handleError);
+  }
 }

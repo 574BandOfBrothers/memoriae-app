@@ -18,6 +18,7 @@ import { fetchStories } from '../../actions/stories';
 import { textStyles, colors } from '../../helpers/styles';
 
 import AddIcon from '../../assets/icons/add.png';
+import SearchIcon from '../../assets/icons/search.png';
 
 const viewport = {
   width: Dimensions.get('window').width,
@@ -72,10 +73,13 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: 15,
   },
-  addButton: {
+  headerButtonRight: {
     marginRight: 15,
   },
-  addButtonImage: {
+  headerButtonLeft: {
+    marginLeft: 15,
+  },
+  headerButtonImage: {
     width: 20,
     height: 20,
   },
@@ -114,11 +118,18 @@ const styles = StyleSheet.create({
 StoriesScreen.navigationOptions = ({ navigation }) => {
   return {
     title: 'Memories',
+    headerLeft: (
+      <TouchableOpacity
+        style={styles.headerButtonLeft}
+        onPress={() => navigation.navigate('Search')}>
+        <Image source={SearchIcon} style={styles.headerButtonImage} />
+      </TouchableOpacity>
+    ),
     headerRight: (
       <TouchableOpacity
-        style={styles.addButton}
+        style={styles.headerButtonRight}
         onPress={() => navigation.navigate('AddStory')}>
-        <Image source={AddIcon} style={styles.addButtonImage} />
+        <Image source={AddIcon} style={styles.headerButtonImage} />
       </TouchableOpacity>
     )
   }
