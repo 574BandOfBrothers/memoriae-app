@@ -2,7 +2,47 @@ import api from '../configs/api';
 
 export const fetchAnnotations = () => dispatch => {
   dispatch({
-    type: 'ANNOTATION/LIST_REQUEST'
+    type: 'ANNOTATIONS/LIST_REQUEST'
+  });
+
+  api.getAnnotations()
+  .then((annotations) => {
+    return dispatch({
+      type: 'ANNOTATIONS/ADD',
+      annotations: annotations,
+    });
+  })
+  .catch(errorResponse => {
+    return dispatch({
+      type: 'ANNOTATIONS/LIST_REQUEST_FAIL',
+      error: errorResponse,
+    });
+  });
+}
+
+export const fetchAnnotationswithstoryid = () => dispatch => {
+  dispatch({
+    type: 'ANNOTATIONS/LIST_REQUEST'
+  });
+
+  api.getAnnotations()
+  .then((annotations) => {
+    return dispatch({
+      type: 'ANNOTATIONS/ADD',
+      annotations: annotations,
+    });
+  })
+  .catch(errorResponse => {
+    return dispatch({
+      type: 'ANNOTATIONS/LIST_REQUEST_FAIL',
+      error: errorResponse,
+    });
+  });
+}
+
+export const fetchAnnotationswithkeyword = () => dispatch => {
+  dispatch({
+    type: 'ANNOTATIONS/LIST_REQUEST'
   });
 
   api.getAnnotations()

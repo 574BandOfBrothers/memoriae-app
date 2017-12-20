@@ -11,7 +11,7 @@ import {
    FlatList,
 } from 'react-native';
 
-/*import { createAnnotation } from '../../actions/annotations';*/
+import { createAnnotation } from '../../actions/annotations';
 import { textStyles, colors } from '../../helpers/styles';
 
 
@@ -29,6 +29,34 @@ const renderListImage = ({ item, index}) => (
     />
 )
 
+var annotationData = {
+  context: 'http://www.w3.org/ns/anno.jsonld',
+  id:'http://example.org/anno20',
+  type:'Annotation',
+  body: { type: 'TextualBody', value: 'mustafa', purpose: 'tagging'},
+  target:'http://api.memoriae.online/stories/5a2f0256741e390da83b38ae',
+  "__v": 0
+};
+/*
+
+"@context": "http://www.w3.org/ns/anno.jsonld",
+    "id": "http://example.org/anno20",
+    "type": "Annotation",
+    "body": [
+        {
+            "type": "TextualBody",
+            "value": "mustafa",
+            "purpose": "tagging"
+        },
+        {
+            "type": "TextualBody",
+            "value": "mustafa bahattin fatih ",
+            "purpose": "describing"
+        }
+    ],
+    "target": "http://api.memoriae.online/stories/5a2f0256741e390da83b38ae",
+    "__v": 0
+*/
 
 class AddAnnotationScreen extends Component {
   constructor(props) {
@@ -41,7 +69,17 @@ class AddAnnotationScreen extends Component {
       storyIDParam:storyIDParam,
       selectionStart:selection.start,
       selectionEnd:selection.end,
-      images: List([])
+      images: List([]),
+      annotation: Map({
+        context: 'http://www.w3.org/ns/anno.jsonld',
+        type: 'Annotation',
+        body: ({
+          type:'TextualBody',
+          value:'',
+          purpose:'describing'
+        }),
+        target: '',
+      }),
     };
 
   }
@@ -69,8 +107,7 @@ class AddAnnotationScreen extends Component {
     });
   }
   handleAddAnnotation() {
-   /* const { selection } = this.state;
-    const selectedText = this.state.text.slice(selection.start, selection.end);*/
+    //this.props.createAnnotation(this.state.annotaiton.toJS(), this.state.images.toJS());
     Alert.alert(
       'Status',
       'Annotation is Recorded!'
@@ -102,6 +139,7 @@ class AddAnnotationScreen extends Component {
               selectionColor={colors.charcoalGrey()}
               returnKeyType="next"
               placeholder="Description"
+              //onChange={this.handleTextChange.bind(this, 'context')}
               multiline={true}
               maxHeight={150}
               />

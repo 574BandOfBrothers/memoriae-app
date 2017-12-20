@@ -97,6 +97,7 @@ class AddStoryScreen extends Component {
           <FlatList
             data={medias.toJS()}
             keyExtractor={(media, index) => index}
+            renderItem={this.displaySelectionArea.bind(this)}
             renderItem={this.renderStoryMedia.bind(this)}
             style={styles.container} />
         }
