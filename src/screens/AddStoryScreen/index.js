@@ -79,6 +79,10 @@ class AddStoryScreen extends Component {
       allowsEditing: true,
       aspect: [1, 1],
     }).then((image) => {
+      if (image.cancelled) {
+        return;
+      }
+
       this.setState({
         images: this.state.images.push(Map(image)),
       });
