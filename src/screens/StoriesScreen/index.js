@@ -41,6 +41,7 @@ class StoriesScreen extends Component {
       <TouchableOpacity
         style={styles.listItemContainer}
         onPress={this.handleSelectStory.bind(this, item._id)}>
+        <Text style={styles.listItemLocation}>{ item.location }</Text>
         { item.media && item.media.length > 0 &&
           <Image source={{ uri: item.media[0].url }} style={styles.listItemImage} />
         }
@@ -48,6 +49,9 @@ class StoriesScreen extends Component {
           <Text style={styles.listItemTitle}>{ item.title }</Text>
           <Text style={styles.listItemTime}>{ item.time }</Text>
         </View>
+
+
+
       </TouchableOpacity>
     )
   }
@@ -112,7 +116,14 @@ const styles = StyleSheet.create({
     ...textStyles.semiBold,
     color: colors.ocean(),
     marginBottom: 3,
-  }
+  },
+  listItemLocation: {
+    marginTop: 3,
+    ...textStyles.semiBold,
+    color: colors.ocean(),
+    textAlign: 'center',
+    marginBottom: 10,
+  }  
 });
 
 StoriesScreen.navigationOptions = ({ navigation }) => {

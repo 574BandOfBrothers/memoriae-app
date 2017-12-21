@@ -21,6 +21,8 @@ import { fetchStory } from '../../actions/stories';
 
 import { textStyles, colors } from '../../helpers/styles';
 import StyledButton from '../../components/StyledButton';
+import LocationIcon from '../../assets/icons/loc.png';
+
 const viewport = {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height
@@ -94,6 +96,10 @@ class AddStoryScreen extends Component {
 
     return (
       <ScrollView style={styles.container}>
+        <View style={styles.storyLocationContainer}>
+          <Image style={styles.storyLocationIcon} source={LocationIcon} />
+          <Text style={styles.storyLocation} >{ story.get('location') }</Text>
+        </View>
         { medias && medias.size > 0 &&
           <FlatList
             data={medias.toJS()}
@@ -157,6 +163,22 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: colors.ocean(),
     marginBottom: 20,
+  },
+  storyLocation: {
+    marginTop: 10,
+    ...textStyles.semiBold,
+    color: colors.ocean(),
+    marginBottom: 10,
+  },  
+  storyLocationIcon: {
+    width: 30,
+    height: 30,
+  },      
+  storyLocationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    justifyContent: 'center',
   },
   storyBody: {
     ...textStyles.semiBold,

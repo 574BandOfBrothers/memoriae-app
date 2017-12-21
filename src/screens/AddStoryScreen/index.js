@@ -45,6 +45,7 @@ class AddStoryScreen extends Component {
         time: '',
         tags: '',
         body: '',
+        location: '',
       }),
       images: List([]),
     };
@@ -133,6 +134,16 @@ class AddStoryScreen extends Component {
               onDateChange={this.handleTextChange.bind(this, 'time')}/>
 
             <StyledTextInput
+              wrapperStyle={styles.interactionWrapper}
+              style={styles.locationInput}
+              placeholderTextColor={colors.charcoalGrey(0.3)}
+              selectionColor={colors.charcoalGrey()}
+              returnKeyType="next"
+              placeholder="Location for your memory"
+              value={story.get('location')}
+              onChangeText={this.handleTextChange.bind(this, 'location')}/>              
+
+            <StyledTextInput
               wrapperStyle={styles.interactionWrapperMultiline}
               style={styles.textInputMultiline}
               placeholderTextColor={colors.charcoalGrey(0.3)}
@@ -200,6 +211,9 @@ const styles = StyleSheet.create({
   textInput: {
     color: colors.charcoalGrey(),
   },
+  locationInput: {
+    color: colors.charcoalGrey(),
+  },  
   textInputMultiline: {
     color: colors.charcoalGrey(),
     height: 250,
