@@ -21,7 +21,7 @@ import { fetchStory } from '../../actions/stories';
 
 import { textStyles, colors } from '../../helpers/styles';
 import StyledButton from '../../components/StyledButton';
-import SearchIcon from '../../assets/icons/loc.png';
+import LocationIcon from '../../assets/icons/loc.png';
 
 const viewport = {
   width: Dimensions.get('window').width,
@@ -97,7 +97,7 @@ class AddStoryScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.storyLocationContainer}>
-          <Image style={styles.storyLocationIcon} source={SearchIcon} />
+          <Image style={styles.storyLocationIcon} source={LocationIcon} />
           <Text style={styles.storyLocation} >{ story.get('location') }</Text>
         </View>
         { medias && medias.size > 0 &&
