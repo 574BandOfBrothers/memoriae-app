@@ -13,22 +13,83 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
+import HTMLView from 'react-native-htmlview';
+
 import { Map, List } from 'immutable';
 
 import ActivityIndicator from '../../components/ActivityIndicator';
 
-import { fetchStory } from '../../actions/stories';
+import { fetchAnnotationsWithTarget } from '../../actions/annotations';
 
 import { textStyles, colors } from '../../helpers/styles';
 import StyledButton from '../../components/StyledButton';
 import LocationIcon from '../../assets/icons/loc.png';
+
+import config from '../../configs/environment';
 
 const viewport = {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height
 }
 
-class AddStoryScreen extends Component {
+const AnnotatedView = ({ text, selectors, onSelectAnnotation }) => {
+  let html = '<p>';
+
+  text.split('').forEach((char, index) => {
+    const hasEnd = selectors.find(selector => selector.end - 1 === index);
+    const hasStart = selectors.find(selector => selector.start === index);
+
+    if (hasStart) {
+      html += `<a href="${index}">`;
+    }
+
+    html += char;
+
+    if (hasEnd) {
+      html += '</a>';
+    }
+  });
+
+  html += '</p>';
+
+  return <HTMLView value={html} stylesheet={htmlStyles} onLinkPress={onSelectAnnotation}/>
+}
+
+class AnnotateHeaderButton extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isDoneVisible: false,
+    };
+  }
+
+  handleOnPress = () => {
+    this.setState({
+      isDoneVisible: !this.state.isDoneVisible,
+    });
+
+    this.props.onPress && this.props.onPress();
+  }
+
+  render() {
+    return (
+      <TouchableOpacity
+        style={styles.headerRightButton}
+        onPress={this.handleOnPress}>
+        { !this.state.isDoneVisible &&
+          <Text style={styles.headerRightButtonText}>Annotate</Text>
+        }
+        { this.state.isDoneVisible &&
+          <Text style={styles.headerRightButtonText}>Done</Text>
+        }
+      </TouchableOpacity>
+    )
+  }
+}
+
+class StoryScreen extends Component {
+
   constructor(props) {
     super(props);
 
@@ -40,14 +101,20 @@ class AddStoryScreen extends Component {
       storyBody: story.get('body'),
       selectedText: null,
       selection: null,
-      storyIDParam:storyId
+      storyId:storyId,
+      isAnnotationVisible: true,
     };
   }
 
   componentDidMount() {
     this.props.navigation.setParams({
       title: this.state.story.get('title'),
+      handleToggleAnnotation: this.handleToggleAnnotation,
     });
+
+    const { storyId } = this.state;
+
+    this.props.fetchAnnotationsWithTarget(storyId, `${config.api}/stories/${storyId}`);
   }
 
   renderStoryMedia({ item, index }) {
@@ -56,43 +123,61 @@ class AddStoryScreen extends Component {
     )
   }
 
-  handleListAnnotations(storyId) {
-     /*this.props.navigation.navigate('AnnotationList', {
-      storyId,
-     });
-     */
-  }
-
   handleCreateAnnotation() {
-    const { selection } = this.state;
-    const selectedText  = this.state.storyBody.slice(selection.start, selection.end);
-    const storyBody = this.state.storyBody;
-    const storyIDParam = this.state.storyIDParam;
+    const { selection, storyBody, storyId } = this.state;
+    const selectedText = storyBody.slice(selection.start, selection.end);
+
     if(selectedText !== '' && selectedText ){
-      this.props.navigation.navigate('AddAnnotation', {
+      return this.props.navigation.navigate('AddAnnotation', {
         selectedText,
-        storyIDParam,
+        storyId,
         selection,
-
-
       });
     }
-    else{
-      Alert.alert(
-        'Alert!','Please select image or text area to annotate!'
-      )
-    }
+
+    Alert.alert(
+      'Alert!','Please select text to annotate!'
+    )
   }
+
+  handleToggleAnnotation = () => {
+    this.setState({
+      isAnnotationVisible: !this.state.isAnnotationVisible,
+    })
+  }
+
+  handleViewAnnotationDetail = (start) => {
+    const { storyId, storyBody } = this.state;
+    const { navigation, annotations } = this.props;
+    const storyAnnotations = annotations && storyId && annotations.get(storyId);
+    navigation.navigate('AnnotationDetail', {
+      storyId,
+      annotations: storyAnnotations,
+      start,
+      storyBody,
+    });
+  }
+
   handleSelection({ nativeEvent }) {
     const { selection } = nativeEvent;
     this.setState({
-      selection
+      selection,
     })
   }
+
   render() {
-    const { story } = this.state;
-    const { navigation } = this.props;
+    const { story, storyId, storyBody, isAnnotationVisible } = this.state;
+    const { navigation, annotations } = this.props;
     const medias = story && story.get('media');
+
+    const storyAnnotations = annotations && storyId && annotations.get(storyId);
+    let textSelectors = storyAnnotations && storyAnnotations
+      .filter(annotation => annotation.getIn(['target', 'selector', 'type']) === 'TextPositionSelector')
+      .map((annotation) => {
+        return annotation.getIn(['target', 'selector']).toJS();
+      });
+
+    textSelectors = textSelectors && textSelectors.toJS();
 
     return (
       <ScrollView style={styles.container}>
@@ -103,47 +188,66 @@ class AddStoryScreen extends Component {
         { medias && medias.size > 0 &&
           <FlatList
             data={medias.toJS()}
+            horizontal={true}
+            pagingEnabled={true}
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(media, index) => index}
             renderItem={this.renderStoryMedia.bind(this)}
             style={styles.container} />
         }
         <View style={styles.storyInfoContainer}>
           <Text style={styles.storyTitle}>{ story.get('title') }</Text>
-          <TextInput
+          { !isAnnotationVisible &&
+            <TextInput
             style={styles.annotationText}
             value = {this.state.storyBody }
             onSelectionChange={this.handleSelection.bind(this)}
             multiline={true}
-            editable={false}>
-          </TextInput>
-          <StyledButton
-             style={styles.CreateAnnotationButton}
-             titleStyle={styles.CreateAnnotationButtonText}
+            editable={false} />
+          }
+          { isAnnotationVisible && textSelectors && storyBody &&
+            <AnnotatedView
+              selectors={textSelectors}
+              text={storyBody}
+              onSelectAnnotation={this.handleViewAnnotationDetail} />
+          }
+          { !isAnnotationVisible &&
+            <StyledButton
+             style={styles.createAnnotationButton}
+             titleStyle={styles.createAnnotationButtonText}
              title="Create Annotation"
-             onPress={this.handleCreateAnnotation.bind(this, story.get('_id'))}
-          />
-          <StyledButton
-             style={styles.ListAnnotationsButton}
-             titleStyle={styles.ListAnnotationsButtonText}
-             title="List Annotations"
-             onPress={this.handleListAnnotations.bind(this, story.get('_id'))}
-          />
-
+             onPress={this.handleCreateAnnotation.bind(this, story.get('_id'))} />
+          }
         </View>
       </ScrollView>
     );
   }
 }
 
-AddStoryScreen.navigationOptions = props => {
+StoryScreen.navigationOptions = props => {
   const { navigation } = props;
-  const params = navigation.state.params;
+  const { title, handleToggleAnnotation } = navigation.state.params;
   return {
-    title: params && params.title,
+    title: title,
+    headerRight: (
+      <AnnotateHeaderButton onPress={handleToggleAnnotation}/>
+    )
   }
 }
 
+const htmlStyles = StyleSheet.create({
+  p: {
+    ...textStyles.semiBold,
+    fontSize: 18,
+    color: colors.charcoalGrey(),
+    marginBottom: 3,
+  },
+  a: {
+    backgroundColor: colors.ocean(),
+    color: colors.white(),
 
+  }
+});
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -156,7 +260,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   annotationText: {
-    color:colors.red
+    ...textStyles.regular,
+    color:colors.red,
+    fontSize: 18,
+    color: colors.charcoalGrey(),
+    backgroundColor: colors.white(),
+    padding: 10,
+    paddingTop: 11,
+    borderRadius: 8,
   },
   storyTitle: {
     ...textStyles.bold,
@@ -169,11 +280,11 @@ const styles = StyleSheet.create({
     ...textStyles.semiBold,
     color: colors.ocean(),
     marginBottom: 10,
-  },  
+  },
   storyLocationIcon: {
     width: 30,
     height: 30,
-  },      
+  },
   storyLocationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -186,7 +297,15 @@ const styles = StyleSheet.create({
     color: colors.charcoalGrey(),
     marginBottom: 3,
   },
-  CreateAnnotationButton: {
+  headerRightButton: {
+    marginRight: 8,
+  },
+  headerRightButtonText: {
+    ...textStyles.semiBold,
+    color: colors.ocean(),
+    fontSize: 16,
+  },
+  createAnnotationButton: {
     marginTop: 20,
     marginBottom: 20,
     paddingLeft: 15,
@@ -198,36 +317,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: colors.ocean(),
   },
-
-    CreateAnnotationButtonText: {
+  createAnnotationButtonText: {
+    ...textStyles.semiBold,
+    fontSize: 16,
     textAlign: 'center',
     color: colors.whiteThree(),
-
   },
-  ListAnnotationsButton: {
-    marginTop: 20,
-    marginBottom: 20,
-    paddingLeft: 15,
-    paddingRight: 15,
-    height: 53,
-    borderRadius: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.whiteThree()
-  },
-
-    ListAnnotationsButtonText: {
-    textAlign: 'center',
-    color: colors.ocean(),
-
-  }
 });
 
 export default connect(
   state => ({
     stories: state.stories,
+    annotations: state.annotations,
   }), {
-    fetchStory,
+    fetchAnnotationsWithTarget,
   }
-)(AddStoryScreen);
+)(StoryScreen);

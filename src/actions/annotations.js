@@ -20,97 +20,57 @@ export const fetchAnnotations = () => dispatch => {
   });
 }
 
-export const fetchAnnotationswithstoryid = () => dispatch => {
+export const fetchAnnotationsWithTarget = (storyId, target) => dispatch => {
   dispatch({
-    type: 'ANNOTATIONS/LIST_REQUEST'
+    type: 'ANNOTATIONS/LIST_REQUEST',
+    storyId,
   });
 
-  api.getAnnotations()
-  .then((annotations) => {
+  api.getAnnotations({ target })
+  .then(({ first }) => {
     return dispatch({
       type: 'ANNOTATIONS/ADD',
-      annotations: annotations,
+      storyId,
+      annotations: first.items,
     });
   })
   .catch(errorResponse => {
     return dispatch({
       type: 'ANNOTATIONS/LIST_REQUEST_FAIL',
+      storyId,
       error: errorResponse,
     });
   });
 }
 
-export const fetchAnnotationswithkeyword = () => dispatch => {
-  dispatch({
-    type: 'ANNOTATIONS/LIST_REQUEST'
-  });
-
-  api.getAnnotations()
-  .then((annotations) => {
-    return dispatch({
-      type: 'ANNOTATIONS/ADD',
-      annotations: annotations,
+export const createAnnotationRequest = (storyId, annotationData) => dispatch =>
+  new Promise((resolve, reject) => {
+    dispatch({
+      type: 'ANNOTATIONS/CREATE_REQUEST',
+      storyId,
     });
-  })
-  .catch(errorResponse => {
-    return dispatch({
-      type: 'ANNOTATIONS/LIST_REQUEST_FAIL',
-      error: errorResponse,
-    });
-  });
-}
 
-export const clearAddAnnotationScreen = () => dispatch => {
-  dispatch({
-    type: 'ADD_ANNOTATION_SCREEN/CLEAR',
-  });
-}
-
-export const createAnnotation = (fields, images) => dispatch => {
-  dispatch({
-    type: 'ANNOTATIONS/CREATE_REQUEST',
-  });
-
-  const promises = images.map((image) =>
-    new Promise((resolve, reject) => {
-      api.requestSignedUrl()
-      .then((signedData) => {
-        api.uploadToSignedUrl(signedData.signedUrl, image.uri)
-        .then(() => resolve({
-          type: signedData.config.ContentType,
-          url: signedData.fileUrl,
-        }))
-        .catch((error) => { console.log(error); reject();});
-      })
-      .catch((error) => { console.log(error); reject();});
-    })
-  );
-
-  Promise.all(promises)
-  .then((uploadedImages) => {
     api.createAnnotation({
-      ...fields,
-      media: uploadedImages,
+      '@context': 'http://www.w3.org/ns/anno.jsonld',
+      type: 'Annotation',
+      ...annotationData,
     })
     .then((annotation) => {
-      return dispatch({
-        type: 'ANNOTATIONS/ADD',
-        annotations: [annotation],
+      dispatch({
+        type: 'ANNOTATIONS/CREATE',
+        storyId,
+        annotation,
       });
+
+      resolve();
     })
     .catch(errorResponse => {
-      console.log(errorResponse);
-      return dispatch({
+      dispatch({
         type: 'ANNOTATIONS/CREATE_REQUEST_FAIL',
+        storyId,
         error: errorResponse,
       });
+
+      reject();
     });
   })
-  .catch((errorResponse) => {
-    console.log(errorResponse);
-    return dispatch({
-      type: 'ANNOTATIONS/CREATE_REQUEST_FAIL',
-      error: errorResponse,
-    });
-  })
-}

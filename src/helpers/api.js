@@ -138,11 +138,18 @@ export default class Api {
     }).then(handleResponse, handleError);
   }
 
-// this chunk was added by BU, need to check
-  getAnnotations() {
-    return fetch(`${this._url}/annotations`, {
+  getAnnotations({ target }) {
+    let url = `${this._url}/annotations`;
+
+    if (target) {
+      url += `?target=${target}`;
+    }
+
+    return fetch(url, {
       method: 'get',
-      headers: this.header(),
+      headers: this.header({
+        'Prefer': 'return=representation;include="http://www.w3.org/ns/oa#PreferContainedDescriptions"',
+      }),
     }).then(handleResponse, handleError);
   }
 
