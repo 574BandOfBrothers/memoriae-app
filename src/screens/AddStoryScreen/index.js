@@ -141,7 +141,7 @@ class AddStoryScreen extends Component {
               returnKeyType="next"
               placeholder="Location for your memory"
               value={story.get('location')}
-              onChangeText={this.handleTextChange.bind(this, 'location')}/>              
+              onChangeText={this.handleTextChange.bind(this, 'location')}/>
 
             <StyledTextInput
               wrapperStyle={styles.interactionWrapperMultiline}
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   locationInput: {
     color: colors.charcoalGrey(),
-  },  
+  },
   textInputMultiline: {
     color: colors.charcoalGrey(),
     height: 250,
