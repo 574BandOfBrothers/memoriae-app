@@ -29,11 +29,27 @@ const viewport = {
 class AddStoryScreen extends Component {
   constructor(props) {
     super(props);
-
+    /* Added for image annotation*/
+    let gesturePosition = {};
+    let ImgImgSelectorSize = 75;
+    let locationX = 25;
+    let locationY = 25;
+    /**/
     const storyId = props.navigation.state.params.storyId;
     const story = props.stories.find(story => story.get('_id') === storyId);
 
     this.state = {
+      /* Added for image annotation*/
+      containerWidth:0,
+      containerHeigth:0,
+      gesturePosition: gesturePosition,
+      ImgImgSelectorSize : ImgImgSelectorSize,
+      locationX: locationX,
+      locationY: locationY,
+      currentImageIndex:-1,
+      imageIndex:[],
+      /**/
+
       story: story,
       storyBody: story.get('body'),
       selectedText: null,
@@ -46,7 +62,57 @@ class AddStoryScreen extends Component {
     this.props.navigation.setParams({
       title: this.state.story.get('title'),
     });
+
+    content.
   }
+
+  /* Added for image annotation*/
+  componentWillMount(nextProps) {
+      this.gestureResponder = createResponder({
+        
+        onStartShouldSetResponder: (evt, gesturePosition) => true,
+        onResponderGrant: (evt, gesturePosition) => {},
+        onResponderTerminationRequest: (evt, gesturePosition) => true,
+        onStartShouldSetResponderCapture: (evt, gesturePosition) => true,
+        onMoveShouldSetResponder: (evt, gesturePosition) => true,
+        onMoveShouldSetResponderCapture: (evt, gesturePosition) => true,
+        onResponderTerminate: (evt, gesturePosition) => {},
+        onResponderSingleTapConfirmed: (evt, gesturePosition) => {},
+        onResponderRelease: (evt, gesturePosition) => this.setState({ gesturePosition: { ...gesturePosition }}),
+        onResponderMove: (evt, gesturePosition) => {
+
+          let ImgSelectorSize = this.state.ImgSelectorSize;
+         
+          if (gesturePosition.pinch && gesturePosition.previousPinch)
+            ImgSelectorSize *= (gesturePosition.pinch / gesturePosition.previousPinch)
+
+          let {locationX, locationY, containerWidth, containerHeight} = this.state;
+
+          let xDiff = (gesturePosition.moveX - gesturePosition.previousMoveX);
+          let yDiff = (gesturePosition.moveY - gesturePosition.previousMoveY);
+          let selectorHalfSize = ImgSelectorSize / 2;
+
+          if(((locationX - selectorHalfSize) + xDiff) > 0 
+            && ((locationX + selectorHalfSize) + xDiff) < containerWidth
+            && ((locationY - selectorHalfSize) + yDiff) >= 0
+            && ((locationY + selectorHalfSize) + yDiff) <= containerHeight) {
+
+            locationX += (gesturePosition.moveX - gesturePosition.previousMoveX);
+            locationY += (gesturePosition.moveY - gesturePosition.previousMoveY);          
+          }
+
+
+          this.setState({
+            gesturePosition: { ...gesturePosition },
+            locationX,
+            locationY,
+            ImgSelectorSize,
+            targetId: storyId
+          });
+        }
+      });
+    }
+
 
   renderStoryMedia({ item, index }) {
     return (
@@ -71,7 +137,11 @@ class AddStoryScreen extends Component {
         selectedText,
         storyIDParam,
         selection,
+    /*else if (imageSelected)
+    {
+        Create image annotation here
 
+    }*/
 
       });
     }
@@ -120,6 +190,12 @@ class AddStoryScreen extends Component {
              style={styles.ListAnnotationsButton}
              titleStyle={styles.ListAnnotationsButtonText}
              title="List Annotations"
+             onPress={this.handleListAnnotations.bind(this, story.get('_id'))}
+          />
+          <StyledButton
+             style={styles.AddImageAnnotation}
+             titleStyle={styles.AddImageAnnotationText}
+             title="Add Image Annotation"
              onPress={this.handleListAnnotations.bind(this, story.get('_id'))}
           />
 
@@ -196,6 +272,25 @@ const styles = StyleSheet.create({
   },
 
     ListAnnotationsButtonText: {
+    textAlign: 'center',
+    color: colors.ocean(),
+
+  },
+
+  AddImageAnnotation: {
+    marginTop: 20,
+    marginBottom: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
+    height: 53,
+    borderRadius: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.whiteThree()
+  },
+
+    AddImageAnnotationText: {
     textAlign: 'center',
     color: colors.ocean(),
 
