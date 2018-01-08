@@ -67,7 +67,7 @@ class AddStoryScreen extends Component {
   }
 
   /* Added for image annotation*/
-  componentWillMount(nextProps) {
+  componentWillMount() {
       this.gestureResponder = createResponder({
         
         onStartShouldSetResponder: (evt, gesturePosition) => true,
