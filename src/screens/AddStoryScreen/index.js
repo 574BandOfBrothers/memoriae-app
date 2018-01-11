@@ -75,6 +75,12 @@ class AddStoryScreen extends Component {
     });
   }
 
+  handleLocationChange(data, details = null) {
+    this.setState({
+      story: this.state.story.set('location', data.description),
+    });
+  }
+
   handleSave() {
     this.props.createStory(this.state.story.toJS(), this.state.images.toJS());
   }
@@ -142,10 +148,7 @@ class AddStoryScreen extends Component {
               minLength={2} // minimum length of text to search
               autoFocus={false}
               fetchDetails={true}
-              onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                console.log(data);
-                console.log(details);
-              }}
+              onPress={this.handleLocationChange.bind(this)}
               getDefaultValue={() => {
                 return ''; // text input default value
               }}
@@ -162,10 +165,10 @@ class AddStoryScreen extends Component {
                   color: '#1faadb',
                 },
               }}
-              
+
               currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
               currentLocationLabel="Current location"
-              nearbyPlacesAPI='GooglePlacesSearch' 
+              nearbyPlacesAPI='GooglePlacesSearch'
               GoogleReverseGeocodingQuery={{
                 // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
               }}
@@ -173,13 +176,14 @@ class AddStoryScreen extends Component {
                 rankby: 'distance',
                 types: 'food',
               }}
-              
-              
+
+
               filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-              
+
               predefinedPlaces={[schoolPlace, workPlace]}
-              
+
               predefinedPlacesAlwaysVisible={false}
+              debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
               value={story.get('location')} //Get input location and send to API
               onChangeText={this.handleTextChange.bind(this, 'location')}
