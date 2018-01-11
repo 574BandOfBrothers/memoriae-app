@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
   StyleSheet,
   View,
@@ -27,6 +28,9 @@ import { clearAddStoryScreen } from '../../actions/addStoryScreen';
 import { textStyles, colors } from '../../helpers/styles';
 
 import ListArrow from '../../assets/icons/listArrow.png';
+
+const schoolPlace = {description: 'School', geometry: { location: { lat: 41.08587857894777, lng: 29.04510628197022 } }};
+const workPlace = {description: 'Work', geometry: { location: { lat: 41.08277325266075, lng: 29.01193272087403 } }};
 
 const renderListImage = ({ item, index}) => (
   <Image
@@ -133,15 +137,53 @@ class AddStoryScreen extends Component {
               //onDateChange={(date) => {this.setState({date: date})}}
               onDateChange={this.handleTextChange.bind(this, 'time')}/>
 
-            <StyledTextInput
-              wrapperStyle={styles.interactionWrapper}
-              style={styles.locationInput}
-              placeholderTextColor={colors.charcoalGrey(0.3)}
-              selectionColor={colors.charcoalGrey()}
-              returnKeyType="next"
-              placeholder="Location for your memory"
-              value={story.get('location')}
-              onChangeText={this.handleTextChange.bind(this, 'location')}/>
+            <GooglePlacesAutocomplete
+              placeholder='Search Location'
+              minLength={2} // minimum length of text to search
+              autoFocus={false}
+              fetchDetails={true}
+              onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                console.log(data);
+                console.log(details);
+              }}
+              getDefaultValue={() => {
+                return ''; // text input default value
+              }}
+              query={{
+                key: 'AIzaSyAYh-OMkr1MROdjpIcbXtIMeS3UZ1iKgSY',
+                language: 'en', // language of the results
+                types: '(cities)', // default: 'geocode'
+              }}
+              styles={{
+                description: {
+                  fontWeight: 'bold',
+                },
+                predefinedPlacesDescription: {
+                  color: '#1faadb',
+                },
+              }}
+              
+              currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+              currentLocationLabel="Current location"
+              nearbyPlacesAPI='GooglePlacesSearch' 
+              GoogleReverseGeocodingQuery={{
+                // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+              }}
+              GooglePlacesSearchQuery={{
+                rankby: 'distance',
+                types: 'food',
+              }}
+              
+              
+              filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+              
+              predefinedPlaces={[schoolPlace, workPlace]}
+              
+              predefinedPlacesAlwaysVisible={false}
+
+              value={story.get('location')} //Get input location and send to API
+              onChangeText={this.handleTextChange.bind(this, 'location')}
+            />
 
             <StyledTextInput
               wrapperStyle={styles.interactionWrapperMultiline}
